@@ -55,7 +55,6 @@ public class ABGame{
 			Scanner reader = new Scanner(inFile);
 			String line = reader.nextLine();
 			char c;
-			//sSystem.out.println("number of characters are "+ line.length());
 			if(line.length()>=23){
 				for(int i=0;i<23;i++){
 					c = line.charAt(i);
@@ -84,9 +83,6 @@ public class ABGame{
 			root.setBoard(getBoardCopy(inBoard));
 			buildMoveTree(root);
 			applyABMinMax(root);
-
-			//System.out.println("Printing Tree");
-			//printTreeNode(root);
 
 			System.out.print("Input board is: ");
 			System.out.print(inBoard);
@@ -142,20 +138,13 @@ public class ABGame{
 
 	char[] getBoardCopy(char[] board){
 		char [] copy = new char [23];
-		//System.out.println("inside print board printing original board");
-		//printBoard(board);
 		for(int i=0;i<23;i++){
 			copy[i] = board[i];
 		}
-
-		//System.out.println("printing copy of board ");
-		//printBoard(copy);
 		return copy;
 	}
 
 	public void applyABMinMax(TreeNode node){
-		//System.out.println("applyABMinMax" + node.getDepth());
-
 		if(node.getChilds() != null &&node.getChilds().size()>0){
 
 			if(node.isStatEval()){
@@ -182,9 +171,6 @@ public class ABGame{
 
 					if(node.getDepth()!=0){
 						if(node.getDepth()%2==0 ){
-
-							//System.out.println("Node parent is " + node.getParent());
-
 							if(node.getStatGreat()>node.getParent().getStatLess()){
 								return;
 							}
@@ -238,7 +224,6 @@ public class ABGame{
 
 
 		}else{
-			//System.out.println("Evaluating leaf");
 			getMidStatEst(node);
 			if(node.getDepth()%2==0){
 				if(node.getStatEst() < node.getParent().getStatLess() ){
@@ -262,11 +247,8 @@ public class ABGame{
 		ArrayList<Integer> whiteInd = new ArrayList<Integer>();
 		ArrayList<Integer> blackInd = new ArrayList<Integer>();
 		ArrayList<Integer> itrInd = new ArrayList<Integer>();
-
-		// System.out.println("looking for empty spaces");
 		for(int i = 0; i < 23; i++) {
 			c = node.getBoard()[i];
-			//System.out.println("c is "+ c + " node value "+node.getBoard()[i]);
 			if(c=='x' || c=='X' || c==' '){
 			}else if(c=='w' || c=='W'){
 				whiteCount++;
@@ -277,19 +259,9 @@ public class ABGame{
 			}
 
 		}
-
-		//System.out.println("Empty spaces are " + emptyInd);
-
-		//System.out.println("inside buildTree depth " + node.getDepth());
 		if(node.getDepth() == treeDepth || whiteCount <=2 || blackCount <=2){
-			//System.out.println("inside if ");
-			//getMidStatEst(node);
-			//nodesEvaluated++;
-			//System.out.println("Static Estimate is " + node.getStatEst());
 		}else{
 			double statEst;
-
-			//System.out.println("inside else ");
 			ArrayList<TreeNode> childs = new ArrayList<TreeNode>();
 			ArrayList<char[]> allBoards = new ArrayList<char[]>();
 			char[] bestBoard = null;
@@ -312,8 +284,6 @@ public class ABGame{
 
 				generateMove(c,node.getBoard(),itrInd.get(i),allBoards);
 
-				//System.out.println("all Boards size is " + allBoards.size());
-
 				for(int j=0;j<allBoards.size();j++){
 
 					//building tree
@@ -323,7 +293,6 @@ public class ABGame{
 
 
 					newNode.setBoard(allBoards.get(j));
-					//System.out.println("Add new board to child " + allBoards.get(j));
 					buildMoveTree(newNode);
 
 					if(node.getDepth()%2==0){
@@ -345,17 +314,9 @@ public class ABGame{
 
 			}
 
-
-			/*if(childs.size() == 0 ){
-				 //System.out.println("No more boards to generate");
-				 statEst =  -10000;
-				 node.setStatEval(true);
-			 }*/
-
 			node.setChilds(childs);
 			node.setStatEst(statEst);
 			if(node.getDepth() ==0){
-				//node.setIndex(bestInd);
 				node.setBoard(bestBoard);
 			}
 		}
@@ -511,10 +472,8 @@ public class ABGame{
 		char temp;
 		ArrayList<Integer> emptyInd = new ArrayList<Integer>();
 		int whiteCount=0,blackCount=0;
-		//System.out.println("looking for empty spaces");
 		for(int i = 0; i < 23; i++) {
 			temp = board[i];
-			//System.out.println("c is "+ c + " node value "+node.getBoard()[i]);
 			if(temp=='x' || temp=='X' || temp==' '){
 				emptyInd.add(i);
 			}else if(temp=='w' || temp=='W'){
@@ -525,14 +484,10 @@ public class ABGame{
 
 		}
 
-		//System.out.println("Empty spaces are " + emptyInd);
-
 		if(whiteCount < 3){
 			return;
 		}else if((whiteCount == 3 && c =='W') || (blackCount == 3 && c =='B') ){
-			//System.out.println("Entered into endgame");
 			NighInd = emptyInd;
-			//System.out.println("Empty Ind are : " + emptyInd);
 		}else{
 
 			NighInd = getNeighbour(board,ind);
@@ -545,8 +500,6 @@ public class ABGame{
 
 				newBoard[NighInd.get(j)] = c;
 				newBoard[ind] = 'x';
-				//System.out.println("Moving " + c + " from " + ind + " to ind " +  NighInd.get(j)  );
-
 				if(isCloseMill(NighInd.get(j),newBoard)){
 					for(int i=0;i<23;i++){
 						if(newBoard[i]!=c && newBoard[i]!='x'){
@@ -778,8 +731,6 @@ public class ABGame{
 	}
 
 	public void printTreeNode(TreeNode node){
-		//printing when node attribute = 0
-		//System.out.println("Printing Tree");
 		for(int i=0;i<node.getDepth();i++){
 			System.out.print("|");
 		}
@@ -805,16 +756,10 @@ public class ABGame{
 		ArrayList<char[]> allBoards;
 
 		ArrayList<Integer>blackInd = new ArrayList<Integer>();
-		//System.out.print("Inside static est board is " );
-		/*for(int i=0;i<23;i++){
-		System.out.print("*"+node.getBoard()[i]);
-	}
-	System.out.println();
-		 */
+
 
 		for(int i = 0; i < 23; i++) {
 			c = node.getBoard()[i];
-			//System.out.println("c is " +c);
 			if(c=='W' ||c=='w' ){
 				whites++;
 			}else if(c=='B' ||c=='b'){
@@ -841,8 +786,6 @@ public class ABGame{
 			statEst = 1000*(whites - blacks);
 			statEst = statEst - blackMovesNo;
 		}
-
-		//System.out.println("Whites :"+whites + "Blacks :"+blacks);
 		node.setStatEst(statEst);
 	}
 
@@ -854,29 +797,23 @@ public class ABGame{
 		System.out.println(" "+"|\\         |         /|");
 		System.out.println(" "+"| \\        |        / |");
 		System.out.println(" "+"|  \\       |       /  |");
-		//System.out.println(" "+"|   \\        |        /   |");
 		System.out.println("5"+"|   "+inBoard[17]+gap+gap+""+inBoard[18]+gap+"___"+inBoard[19]+"   |");
 		System.out.println(" "+"|   |\\     |     /|   |");
 		System.out.println(" "+"|   | \\    |    / |   |");
 		System.out.println(" "+"|   |  \\   |   /  |   |");
-		//System.out.println(" "+"|    |   \\   |   /   |    |");
 		System.out.println("4"+"|   |   "+inBoard[14]+"__"+inBoard[15]+"__"+inBoard[16]+"   |   |");
 		System.out.println(" "+"|   |   |     |   |   |");
 		System.out.println(" "+"|   |   |     |   |   |");
 		System.out.println(" "+"|   |   |     |   |   |");
-		//System.out.println(" "+"|    |    |      |   |    |");
 		System.out.println("3"+inBoard[8]+gap+inBoard[9]+gap+inBoard[10]+"     "+inBoard[11]+"___"+inBoard[12]+gap+inBoard[13]);
 		System.out.println(" "+"|   |   |     |   |   |");
 		System.out.println(" "+"|   |   |     |   |   |");
 		System.out.println(" "+"|   |   |     |   |   |");
-		//System.out.println(" "+"|    |    |      |   |    |");
 		System.out.println("2"+"|   |   "+inBoard[6]+gap+"__"+inBoard[7]+"   |   |");
-		//System.out.println(" "+"|    |   /       \\   |    |");
 		System.out.println(" "+"|   |  /       \\  |   |");
 		System.out.println(" "+"|   | /         \\ |   |");
 		System.out.println(" "+"|   |/           \\|   |");
 		System.out.println("1"+"|   "+inBoard[3]+gap+"___"+inBoard[4]+gap+"___"+inBoard[5]+"   |");
-		//System.out.println(" "+"|   /        |        \\   |");
 		System.out.println(" "+"|  /       |       \\  |");
 		System.out.println(" "+"| /        |        \\ |");
 		System.out.println(" "+"|/         |         \\|");

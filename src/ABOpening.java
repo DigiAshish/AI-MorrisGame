@@ -56,7 +56,6 @@ public class ABOpening {
 			Scanner reader = new Scanner(inFile);
 			String line = reader.nextLine();
 			char c;
-			//sSystem.out.println("number of characters are "+ line.length());
 			if(line.length()>=23){
 				for(int i=0;i<23;i++){
 					c = line.charAt(i);
@@ -81,9 +80,6 @@ public class ABOpening {
 			root.setBoard(getBoardCopy(inBoard));
 			buildAddTree(root);
 
-
-			//System.out.println("Printing Tree");
-			//printTreeNode(root);
 
 			applyABMinMax(root);
 
@@ -139,7 +135,6 @@ public class ABOpening {
 	}
 
 	public void applyABMinMax(TreeNode node){
-		//System.out.println("applyABMinMax" + node.getDepth());
 
 		if(node.getChilds() != null &&node.getChilds().size()>0){
 
@@ -167,9 +162,6 @@ public class ABOpening {
 
 					if(node.getDepth()!=0){
 						if(node.getDepth()%2==0 ){
-
-							//System.out.println("Node parent is " + node.getParent());
-
 							if(node.getStatGreat()>node.getParent().getStatLess()){
 								return;
 							}
@@ -242,26 +234,17 @@ public class ABOpening {
 
 	char[] getBoardCopy(char[] board){
 		char [] copy = new char [23];
-		//System.out.println("inside print board printing original board");
-		//printBoard(board);
 		for(int i=0;i<23;i++){
 			copy[i] = board[i];
 		}
-
-		//System.out.println("printing copy of board ");
-		//printBoard(copy);
 		return copy;
 	}
 	public void buildAddTree(TreeNode node){
 		char c;
 		int whiteCount=0,blackCount=0;
 		ArrayList<Integer> emptyInd = new ArrayList<Integer>();
-
-
-		// System.out.println("looking for empty spaces");
 		for(int i = 0; i < 23; i++) {
 			c = node.getBoard()[i];
-			//System.out.println("c is "+ c + " node value "+node.getBoard()[i]);
 			if(c=='x' || c=='X' || c==' '){
 				emptyInd.add(i);
 			}else if(c=='w' || c=='W'){
@@ -271,19 +254,10 @@ public class ABOpening {
 			}
 
 		}
-
-		//System.out.println("Empty spaces are " + emptyInd);
-
-
-		//System.out.println("inside buildTree depth " + node.getDepth());
 		if(node.getDepth() == treeDepth || whiteCount <0 || blackCount <0 ){
 			//System.out.println("inside if ");
-			//getOpenStatEst(node);
-			//nodesEvaluated++;
-			//System.out.println("Static Estimate is " + node.getStatEst());
 		}else{
 			double statEst;
-			//System.out.println("inside else ");
 			ArrayList<TreeNode> childs = new ArrayList<TreeNode>();
 			ArrayList<char[]> allBoards = new ArrayList<char[]>();
 
@@ -300,50 +274,20 @@ public class ABOpening {
 
 				generateAdd(c,node.getBoard(),emptyInd.get(i),allBoards);
 
-				//System.out.println("all Boards size is " + allBoards.size());
-
 				for(int j=0;j<allBoards.size();j++){
 
 					//building tree
 					TreeNode newNode = new TreeNode();
 					newNode.setDepth(node.getDepth()+1);
 					newNode.setParent(node);
-
-					//System.out.println("Has set node parent " + newNode.getParent());
-					//System.out.println(" node parent great value is " + newNode.getParent().getStatGreat());
-
-
 					newNode.setBoard(allBoards.get(j));
-					//System.out.println("Add new board to child " + allBoards.get(j));
 					buildAddTree(newNode);
-
-					/*if(node.getDepth()%2==0){
-						if(newNode.getStatEst() > statEst){
-							statEst = newNode.getStatEst(); 
-							bestBoard = newNode.getBoard();
-						}
-
-					}else{
-						if(newNode.getStatEst() < statEst){
-							statEst = newNode.getStatEst(); 
-							bestBoard = newNode.getBoard();
-						}
-					}*/
 
 					childs.add(newNode);
 
 				}
 			}
-
-
-
-
 			node.setChilds(childs);
-			/*node.setStatEst(statEst);
-		if(node.getDepth() ==0){
-			//node.setIndex(bestInd);
-			node.setBoard(bestBoard);
-		}*/
 		}
 
 
@@ -356,8 +300,6 @@ public class ABOpening {
 		newBoard = getBoardCopy(board);
 
 		newBoard[ind] = c;
-		//System.out.println("Placing " + c + " at ind " + ind);
-
 		if(isCloseMill(ind,newBoard)){
 			for(int i=0;i<23;i++){
 				if(newBoard[i]!=c && newBoard[i]!='x'){
@@ -389,9 +331,6 @@ public class ABOpening {
 							//System.out.println("Removing ind " + i);
 							allBoard.add(tempBoard);
 						}
-
-						//System.out.println("mill encountered so not removing");
-
 					}
 				}
 			}
@@ -591,8 +530,6 @@ public class ABOpening {
 	}
 
 	public void printTreeNode(TreeNode node){
-		//printing when node attribute = 0
-		//System.out.println("Printing Tree");
 		for(int i=0;i<node.getDepth();i++){
 			System.out.print("|");
 		}
@@ -613,12 +550,6 @@ public class ABOpening {
 		int whites =0;
 		int blacks =0;
 		char c;
-		//System.out.print("Inside static est board is " );
-		/*for(int i=0;i<23;i++){
-		System.out.print("*"+node.getBoard()[i]);
-	}
-	System.out.println();
-		 */
 
 		for(int i = 0; i < 23; i++) {
 			c = node.getBoard()[i];

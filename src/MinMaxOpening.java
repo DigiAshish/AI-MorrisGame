@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MinMaxOpening {
-//Third Commit
 	char [] inBoard = new char [23];
 	char [] outBoard = new char [23];
 	String inPath;
@@ -55,7 +54,6 @@ public class MinMaxOpening {
 			Scanner reader = new Scanner(inFile);
 			String line = reader.nextLine();
 			char c;
-			//sSystem.out.println("number of characters are "+ line.length());
 			if(line.length()>=23){
 				for(int i=0;i<23;i++){
 					c = line.charAt(i);
@@ -79,10 +77,6 @@ public class MinMaxOpening {
 			root.setDepth(0);
 			root.setBoard(getBoardCopy(inBoard));
 			buildAddTree(root);
-
-
-			//System.out.println("Printing Tree");
-			//printTreeNode(root);
 
 			System.out.print("Input board is: ");
 			System.out.print(inBoard);
@@ -114,8 +108,6 @@ public class MinMaxOpening {
 
 		File outFile =  new File(outPath);
 		String strContent  = "";
-
-
 		for(int i=0;i<23;i++){
 			strContent += board[i];
 		}
@@ -138,24 +130,18 @@ public class MinMaxOpening {
 
 	char[] getBoardCopy(char[] board){
 		char [] copy = new char [23];
-		//System.out.println("inside print board printing original board");
-		//printBoard(board);
 		for(int i=0;i<23;i++){
 			copy[i] = board[i];
 		}
-
-		//System.out.println("printing copy of board ");
-		//printBoard(copy);
 		return copy;
 	}
+	
 	public void buildAddTree(TreeNode node){
 		char c;
 		ArrayList<Integer> emptyInd = new ArrayList<Integer>();
 		int whiteCount=0,blackCount=0;
-		// System.out.println("looking for empty spaces");
 		for(int i = 0; i < 23; i++) {
 			c = node.getBoard()[i];
-			//System.out.println("c is "+ c + " node value "+node.getBoard()[i]);
 			if(c=='x' || c=='X' || c==' '){
 				emptyInd.add(i);
 			}else if(c=='w' || c=='W'){
@@ -165,24 +151,14 @@ public class MinMaxOpening {
 			}
 
 		}
-
-		//System.out.println("Empty spaces are " + emptyInd);
-		//System.out.println("inside buildTree depth " + node.getDepth());
 		if(node.getDepth() == treeDepth || whiteCount <0 || blackCount <0 ){
-			//System.out.println("inside if ");
 			getOpenStatEst(node);
 			nodesEvaluated++;
-			//System.out.println("Static Estimate is " + node.getStatEst());
 		}else{
 			double statEst;
-			//System.out.println("inside else ");
 			ArrayList<TreeNode> childs = new ArrayList<TreeNode>();
 			ArrayList<char[]> allBoards = new ArrayList<char[]>();
 			char[] bestBoard = null;
-
-
-
-
 			if(node.getDepth()%2==0){
 				c='W';
 				statEst=-1000000000;
@@ -193,11 +169,7 @@ public class MinMaxOpening {
 
 			for(int i=0;i<emptyInd.size();i++){
 				allBoards = new ArrayList<char[]>();
-
 				generateAdd(c,node.getBoard(),emptyInd.get(i),allBoards);
-
-				//System.out.println("all Boards size is " + allBoards.size());
-
 				for(int j=0;j<allBoards.size();j++){
 
 					//building tree
@@ -207,7 +179,6 @@ public class MinMaxOpening {
 
 
 					newNode.setBoard(allBoards.get(j));
-					//System.out.println("Add new board to child " + allBoards.get(j));
 					buildAddTree(newNode);
 
 					if(node.getDepth()%2==0){
@@ -234,7 +205,6 @@ public class MinMaxOpening {
 			node.setChilds(childs);
 			node.setStatEst(statEst);
 			if(node.getDepth() ==0){
-				//node.setIndex(bestInd);
 				node.setBoard(bestBoard);
 			}
 		}
@@ -249,7 +219,6 @@ public class MinMaxOpening {
 		newBoard = getBoardCopy(board);
 
 		newBoard[ind] = c;
-		//System.out.println("Placing " + c + " at ind " + ind);
 
 		if(isCloseMill(ind,newBoard)){
 			for(int i=0;i<23;i++){
@@ -279,11 +248,8 @@ public class MinMaxOpening {
 
 						if((tempBlack == 3 && c=='W')||(tempWhite == 3 && c=='B') ){
 							tempBoard[i] = 'x';
-							//System.out.println("Removing ind " + i);
 							allBoard.add(tempBoard);
 						}
-
-						//System.out.println("mill encountered so not removing");
 
 					}
 				}
@@ -484,8 +450,6 @@ public class MinMaxOpening {
 	}
 
 	public void printTreeNode(TreeNode node){
-		//printing when node attribute = 0
-		//System.out.println("Printing Tree");
 		for(int i=0;i<node.getDepth();i++){
 			System.out.print("|");
 		}
@@ -496,7 +460,6 @@ public class MinMaxOpening {
 		System.out.println();
 
 		if(node.getChilds()!=null){
-			//System.out.println("Printing Childs");
 			for(int i=0;i<node.getChilds().size();i++)
 				printTreeNode(node.getChilds().get(i));
 		}	
@@ -506,16 +469,9 @@ public class MinMaxOpening {
 		int whites =0;
 		int blacks =0;
 		char c;
-		//System.out.print("Inside static est board is " );
-		/*for(int i=0;i<23;i++){
-		System.out.print("*"+node.getBoard()[i]);
-	}
-	System.out.println();
-		 */
 
 		for(int i = 0; i < 23; i++) {
 			c = node.getBoard()[i];
-			//System.out.println("c is " +c);
 			if(c=='W' ||c=='w' ){
 				whites++;
 			}else if(c=='B' ||c=='b'){
@@ -523,7 +479,6 @@ public class MinMaxOpening {
 			}
 
 		}
-		//System.out.println("Whites :"+whites + "Blacks :"+blacks);
 		node.setStatEst(whites - blacks);
 	}
 
@@ -535,29 +490,23 @@ public class MinMaxOpening {
 		System.out.println(" "+"|\\         |         /|");
 		System.out.println(" "+"| \\        |        / |");
 		System.out.println(" "+"|  \\       |       /  |");
-		//System.out.println(" "+"|   \\        |        /   |");
 		System.out.println("5"+"|   "+inBoard[17]+gap+gap+""+inBoard[18]+gap+"___"+inBoard[19]+"   |");
 		System.out.println(" "+"|   |\\     |     /|   |");
 		System.out.println(" "+"|   | \\    |    / |   |");
 		System.out.println(" "+"|   |  \\   |   /  |   |");
-		//System.out.println(" "+"|    |   \\   |   /   |    |");
 		System.out.println("4"+"|   |   "+inBoard[14]+"__"+inBoard[15]+"__"+inBoard[16]+"   |   |");
 		System.out.println(" "+"|   |   |     |   |   |");
 		System.out.println(" "+"|   |   |     |   |   |");
 		System.out.println(" "+"|   |   |     |   |   |");
-		//System.out.println(" "+"|    |    |      |   |    |");
 		System.out.println("3"+inBoard[8]+gap+inBoard[9]+gap+inBoard[10]+"     "+inBoard[11]+"___"+inBoard[12]+gap+inBoard[13]);
 		System.out.println(" "+"|   |   |     |   |   |");
 		System.out.println(" "+"|   |   |     |   |   |");
 		System.out.println(" "+"|   |   |     |   |   |");
-		//System.out.println(" "+"|    |    |      |   |    |");
 		System.out.println("2"+"|   |   "+inBoard[6]+gap+"__"+inBoard[7]+"   |   |");
-		//System.out.println(" "+"|    |   /       \\   |    |");
 		System.out.println(" "+"|   |  /       \\  |   |");
 		System.out.println(" "+"|   | /         \\ |   |");
 		System.out.println(" "+"|   |/           \\|   |");
 		System.out.println("1"+"|   "+inBoard[3]+gap+"___"+inBoard[4]+gap+"___"+inBoard[5]+"   |");
-		//System.out.println(" "+"|   /        |        \\   |");
 		System.out.println(" "+"|  /       |       \\  |");
 		System.out.println(" "+"| /        |        \\ |");
 		System.out.println(" "+"|/         |         \\|");
