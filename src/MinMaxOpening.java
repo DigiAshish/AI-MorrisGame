@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MinMaxOpening {
-
+//Second Commit
 	char [] inBoard = new char [23];
 	char [] outBoard = new char [23];
 	String inPath;
