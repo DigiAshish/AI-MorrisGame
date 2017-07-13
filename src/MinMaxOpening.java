@@ -5,15 +5,15 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MinMaxOpening {
-	char [] inBoard = new char [23];
-	char [] outBoard = new char [23];
-	String inPath;
-	String outPath;	
-	int treeDepth=0;
-	int inWhiteCount=0;
-	int inBlackCount=0;
+	char [] inBoard = new char [23]; //Array to store the moves given in the input file
+	char [] outBoard = new char [23]; //Array to store the moves after calculating the output sequence
+	String inPath; // To store the file path of input file
+	String outPath;	//To store file path of output file
+	int treeDepth=0; //input by the user
+	int inWhiteCount=0; //To keep track of white coins in the game
+	int inBlackCount=0; //To keep track of black coins in the game
 	TreeNode root;
-	int nodesEvaluated=0;
+	int nodesEvaluated=0; //How many nodes evaluated
 	
 	public static void main(String[] args){
 
@@ -21,7 +21,7 @@ public class MinMaxOpening {
 		long startTime = System.currentTimeMillis();
 
 		if(args.length>1){
-			gameOpening.addCoin(args);
+			gameOpening.addCoin(args); // Call to AddCoin Function
 		}else{
 			System.out.println("Please enter both input and output file names and re-execute the program");
 		}
@@ -50,7 +50,7 @@ public class MinMaxOpening {
 		}
 
 		try{
-			File inFile = new File(inPath);
+			File inFile = new File(inPath); //Read the input from the input File
 			Scanner reader = new Scanner(inFile);
 			String line = reader.nextLine();
 			char c;
@@ -58,13 +58,13 @@ public class MinMaxOpening {
 				for(int i=0;i<23;i++){
 					c = line.charAt(i);
 					if(c=='W' ||c=='w' ){
-						inBoard[i] = 'W';
-						inWhiteCount++;
+						inBoard[i] = 'W'; //Fill the inboard array with the sequence provided
+						inWhiteCount++; // Keep track of number of White coins
 					}else if(c=='B' ||c=='b'){
 						inBoard[i] = 'B';
 						inBlackCount++;
 					}else{
-						inBoard[i] = 'x';
+						inBoard[i] = 'x'; // Fill remaining board with 'X'
 					}
 				}
 			}else{
@@ -72,11 +72,13 @@ public class MinMaxOpening {
 			}
 
 			System.out.println("Printing input board");
-			printBoard(inBoard);
+			printBoard(inBoard); // Print the Board Graphically
+			
+			
 			root =new TreeNode();
 			root.setDepth(0);
-			root.setBoard(getBoardCopy(inBoard));
-			buildAddTree(root);
+			root.setBoard(getBoardCopy(inBoard)); //set the array with inboard array values
+			buildAddTree(root); //Build the tree
 
 			System.out.print("Input board is: ");
 			System.out.print(inBoard);
@@ -141,19 +143,19 @@ public class MinMaxOpening {
 		ArrayList<Integer> emptyInd = new ArrayList<Integer>();
 		int whiteCount=0,blackCount=0;
 		for(int i = 0; i < 23; i++) {
-			c = node.getBoard()[i];
+			c = node.getBoard()[i]; // Get the position (W/B/X) at ith 
 			if(c=='x' || c=='X' || c==' '){
-				emptyInd.add(i);
+				emptyInd.add(i); //Count Empty index
 			}else if(c=='w' || c=='W'){
-				whiteCount++;
+				whiteCount++; //Count number of whites in the tree
 			}else if(c=='b' || c=='B'){
-				blackCount++;
+				blackCount++; //Count number of Black coins in the tree
 			}
 
 		}
 		if(node.getDepth() == treeDepth || whiteCount <0 || blackCount <0 ){
-			getOpenStatEst(node);
-			nodesEvaluated++;
+			getOpenStatEst(node); //Returns (whites-black) to node.setStatEst
+			nodesEvaluated++; //Keep track of nodes evaluated
 		}else{
 			double statEst;
 			ArrayList<TreeNode> childs = new ArrayList<TreeNode>();
@@ -166,10 +168,10 @@ public class MinMaxOpening {
 				c='B';
 				statEst=1000000000;
 			}
-
+			// Of all the empty places available in the board find the best to add the next coin
 			for(int i=0;i<emptyInd.size();i++){
 				allBoards = new ArrayList<char[]>();
-				generateAdd(c,node.getBoard(),emptyInd.get(i),allBoards);
+				generateAdd(c,node.getBoard(),emptyInd.get(i),allBoards);// c="W/B", Input Board, Empty Index position, New array list
 				for(int j=0;j<allBoards.size();j++){
 
 					//building tree
@@ -212,30 +214,33 @@ public class MinMaxOpening {
 
 
 	}
-
+	// Get c="W/B" , Get Board, Get Index (ind)
 	public void generateAdd(char c,char[] board,int ind,ArrayList<char[]> allBoard){
 		char[] newBoard;
 		char[] tempBoard;
-		newBoard = getBoardCopy(board);
+		newBoard = getBoardCopy(board); // Copy of the Input board sent 
 
-		newBoard[ind] = c;
-
-		if(isCloseMill(ind,newBoard)){
-			for(int i=0;i<23;i++){
-				if(newBoard[i]!=c && newBoard[i]!='x'){
+		newBoard[ind] = c; // Place C="W/B" at Index of new board
+		//If the newBoard[ind] is having two straight mills then
+		if(isCloseMill(ind,newBoard))
+		{
+			for(int i=0;i<23;i++)
+			{
+				//For all the Non Same coins and x
+				if(newBoard[i]!=c && newBoard[i]!='x')
+				{
 					tempBoard = getBoardCopy(newBoard);
 					if(!isCloseMill(i,tempBoard)){
 						tempBoard[i] = 'x';
 						allBoard.add(tempBoard);
-					}else{
-
+					}
+					else
+					{
 						int tempWhite = 0;
 						int tempBlack = 0;
 						char temp;
-
-						tempWhite = 0;
-						tempBlack = 0;
-
+						
+						//Search for all the whites and black coins in the board
 						for(int k = 0; k < 23; k++) {
 							temp = tempBoard[k];
 							if(temp=='w' || temp=='W'){
@@ -245,27 +250,28 @@ public class MinMaxOpening {
 							}
 
 						}
-
-						if((tempBlack == 3 && c=='W')||(tempWhite == 3 && c=='B') ){
+						//Put X in the index i if putting a B or W in i forms a mill
+						if((tempBlack == 3 && c=='W')||(tempWhite == 3 && c=='B') )
+						{
 							tempBoard[i] = 'x';
-							allBoard.add(tempBoard);
+							allBoard.add(tempBoard); // Add the whole board with 'X' stored at index to all Board
 						}
-
 					}
 				}
 			}
 
 
-		}else{
+		}
+		else
+		{
 			allBoard.add(newBoard);
 		}
-
 	}
 
 	public boolean isCloseMill(int ind,char[] board){
 		boolean ret = false;
 		switch(ind){
-
+		//board[ind] will have either W or B
 		case 0: if(board[ind] == board[1] && board[ind] == board[2] && board[ind]!='x'){
 			ret =true;
 		}else if(board[ind] == board[8] && board[ind] == board[20] && board[ind]!='x'){
