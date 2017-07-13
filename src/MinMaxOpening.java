@@ -224,18 +224,21 @@ public class MinMaxOpening {
 		//If the newBoard[ind] is having two straight mills then
 		if(isCloseMill(ind,newBoard))
 		{
-			for(int i=0;i<23;i++)
+			for(int i=0;i<23;i++) // for each location in the board
 			{
-				//For all the Non Same coins and x
+				//GENERATE REMOVE Function for other player's coin
 				if(newBoard[i]!=c && newBoard[i]!='x')
 				{
 					tempBoard = getBoardCopy(newBoard);
+					//If all the coins are not in Mills
 					if(!isCloseMill(i,tempBoard)){
 						tempBoard[i] = 'x';
 						allBoard.add(tempBoard);
 					}
+					//If all the Coins of Other player are in Mills
 					else
 					{
+						//allBoard.add(tempBoard);
 						int tempWhite = 0;
 						int tempBlack = 0;
 						char temp;
@@ -259,8 +262,6 @@ public class MinMaxOpening {
 					}
 				}
 			}
-
-
 		}
 		else
 		{
