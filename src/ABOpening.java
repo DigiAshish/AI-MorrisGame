@@ -34,14 +34,14 @@ public class ABOpening {
 			File inFile = new File(inPath);
 			Scanner reader = new Scanner(inFile);
 			String line = reader.nextLine();
-			char c;
+			char Coin;
 			if(line.length()>=23){
 				for(int i=0;i<23;i++){
-					c = line.charAt(i);
-					if(c=='W' ||c=='w' ){
+					Coin = line.charAt(i);
+					if(Coin=='W' ||Coin=='w' ){
 						inBoard[i] = 'W';
 						inWhiteCount++;
-					}else if(c=='B' ||c=='b'){
+					}else if(Coin=='B' ||Coin=='b'){
 						inBoard[i] = 'B';
 						inBlackCount++;
 					}else{
@@ -216,16 +216,16 @@ public class ABOpening {
 		return copy;
 	}
 	public void buildAddTree(TreeNode node){
-		char c;
+		char Coin;
 		int whiteCount=0,blackCount=0;
-		ArrayList<Integer> emptyInd = new ArrayList<Integer>();
+		ArrayList<Integer> emptyPosition = new ArrayList<Integer>();
 		for(int i = 0; i < 23; i++) {
-			c = node.getBoard()[i];
-			if(c=='x' || c=='X' || c==' '){
-				emptyInd.add(i);
-			}else if(c=='w' || c=='W'){
+			Coin = node.getBoard()[i];
+			if(Coin=='x' || Coin=='X' || Coin==' '){
+				emptyPosition.add(i);
+			}else if(Coin=='w' || Coin=='W'){
 				whiteCount++;
-			}else if(c=='b' || c=='B'){
+			}else if(Coin=='b' || Coin=='B'){
 				blackCount++;
 			}
 
@@ -238,17 +238,17 @@ public class ABOpening {
 			ArrayList<char[]> allBoards = new ArrayList<char[]>();
 
 			if(node.getDepth()%2==0){
-				c='W';
+				Coin='W';
 				statEst=-1000000000;
 			}else{
-				c='B';
+				Coin='B';
 				statEst=1000000000;
 			}
 
-			for(int i=0;i<emptyInd.size();i++){
+			for(int i=0;i<emptyPosition.size();i++){
 				allBoards = new ArrayList<char[]>();
 
-				generateAdd(c,node.getBoard(),emptyInd.get(i),allBoards);
+				generateAdd(Coin,node.getBoard(),emptyPosition.get(i),allBoards);
 
 				for(int j=0;j<allBoards.size();j++){
 
@@ -270,15 +270,15 @@ public class ABOpening {
 
 	}
 
-	public void generateAdd(char c,char[] board,int ind,ArrayList<char[]> allBoard){
+	public void generateAdd(char Coin,char[] board,int Position,ArrayList<char[]> allBoard){
 		char[] newBoard;
 		char[] tempBoard;
 		newBoard = getBoardCopy(board);
 
-		newBoard[ind] = c;
-		if(isCloseMill(ind,newBoard)){
+		newBoard[Position] = Coin;
+		if(isCloseMill(Position,newBoard)){
 			for(int i=0;i<23;i++){
-				if(newBoard[i]!=c && newBoard[i]!='x'){
+				if(newBoard[i]!=Coin && newBoard[i]!='x'){
 					tempBoard = getBoardCopy(newBoard);
 					if(!isCloseMill(i,tempBoard)){
 						tempBoard[i] = 'x';
@@ -302,9 +302,9 @@ public class ABOpening {
 
 						}
 
-						if((tempBlack == 3 && c=='W')||(tempWhite == 3 && c=='B') ){
+						if((tempBlack == 3 && Coin=='W')||(tempWhite == 3 && Coin=='B') ){
 							tempBoard[i] = 'x';
-							//System.out.println("Removing ind " + i);
+							//System.out.println("Removing Position " + i);
 							allBoard.add(tempBoard);
 						}
 					}
@@ -509,14 +509,14 @@ public class ABOpening {
 	public void getOpenStatEst(TreeNode node){
 		int whites =0;
 		int blacks =0;
-		char c;
+		char Coin;
 
 		for(int i = 0; i < 23; i++) {
-			c = node.getBoard()[i];
-			//System.out.println("c is " +c);
-			if(c=='W' ||c=='w' ){
+			Coin = node.getBoard()[i];
+			//System.out.println("Coin is " +Coin);
+			if(Coin=='W' ||Coin=='w' ){
 				whites++;
-			}else if(c=='B' ||c=='b'){
+			}else if(Coin=='B' ||Coin=='b'){
 				blacks++;
 			}
 

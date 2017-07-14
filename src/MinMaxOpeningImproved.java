@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MinMaxOpening {
+public class MinMaxOpeningImproved {
 	char [] inBoard = new char [23]; //Array to store the moves given in the input file
 	char [] outBoard = new char [23]; //Array to store the moves after calculating the output sequence
 	String inPath; // To store the file path of input file
@@ -17,7 +17,7 @@ public class MinMaxOpening {
 	
 	public static void main(String[] args){
 
-		MinMaxOpening gameOpening = new MinMaxOpening(); 
+		MinMaxOpeningImproved gameOpening = new MinMaxOpeningImproved(); 
 		if(args.length>1){
 			gameOpening.addCoin(args); // Call to AddCoin Function
 		}else{
@@ -438,7 +438,22 @@ public class MinMaxOpening {
 
 		}
 		//System.out.println(whites - blacks);
-		node.setStatEst(whites - blacks);
+		node.setStatEst(whites + numPotentialMills(node) - blacks);
 	}
 
+	private int numPotentialMills(TreeNode node) {
+		char Coin;
+		int counter=0;
+		for(int i = 0; i < 23; i++) 
+		{
+			Coin = node.getBoard()[i];
+			if(Coin=='W' ||Coin=='w' ){
+				if (isCloseMill(i,node.getBoard()))
+				{
+					counter++;
+				}
+			}
+		}
+		return counter;
+	}
 }

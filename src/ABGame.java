@@ -34,14 +34,14 @@ public class ABGame{
 			File inFile = new File(inPath);
 			Scanner reader = new Scanner(inFile);
 			String line = reader.nextLine();
-			char c;
+			char Coin;
 			if(line.length()>=23){
 				for(int i=0;i<23;i++){
-					c = line.charAt(i);
-					if(c=='W' ||c=='w' ){
+					Coin = line.charAt(i);
+					if(Coin=='W' ||Coin=='w' ){
 						inBoard[i] = 'W';
 						inWhiteCount++;
-					}else if(c=='B' ||c=='b'){
+					}else if(Coin=='B' ||Coin=='b'){
 						inBoard[i] = 'B';
 						inBlackCount++;
 					}else{
@@ -218,20 +218,20 @@ public class ABGame{
 
 
 	public void buildMoveTree(TreeNode node){
-		char c;
+		char Coin;
 		int whiteCount=0,blackCount=0;
-		ArrayList<Integer> whiteInd = new ArrayList<Integer>();
-		ArrayList<Integer> blackInd = new ArrayList<Integer>();
-		ArrayList<Integer> itrInd = new ArrayList<Integer>();
+		ArrayList<Integer> whitePosition = new ArrayList<Integer>();
+		ArrayList<Integer> blackPosition = new ArrayList<Integer>();
+		ArrayList<Integer> itrPosition = new ArrayList<Integer>();
 		for(int i = 0; i < 23; i++) {
-			c = node.getBoard()[i];
-			if(c=='x' || c=='X' || c==' '){
-			}else if(c=='w' || c=='W'){
+			Coin = node.getBoard()[i];
+			if(Coin=='x' || Coin=='X' || Coin==' '){
+			}else if(Coin=='w' || Coin=='W'){
 				whiteCount++;
-				whiteInd.add(i);
-			}else if(c=='b' || c=='B'){
+				whitePosition.add(i);
+			}else if(Coin=='b' || Coin=='B'){
 				blackCount++;
-				blackInd.add(i);
+				blackPosition.add(i);
 			}
 
 		}
@@ -244,21 +244,21 @@ public class ABGame{
 
 
 			if(node.getDepth()%2==0){
-				c='W';
-				itrInd = whiteInd;
+				Coin='W';
+				itrPosition = whitePosition;
 				statEst=-1000000000;
 			}else{
-				c='B';
-				itrInd=blackInd;
+				Coin='B';
+				itrPosition=blackPosition;
 				statEst=1000000000;
 			}
 
 
-			for(int i=0;i<itrInd.size();i++){
+			for(int i=0;i<itrPosition.size();i++){
 				allBoards = new ArrayList<char[]>();
 
 
-				generateMove(c,node.getBoard(),itrInd.get(i),allBoards);
+				generateMove(Coin,node.getBoard(),itrPosition.get(i),allBoards);
 
 				for(int j=0;j<allBoards.size();j++){
 
@@ -301,11 +301,11 @@ public class ABGame{
 
 	}
 
-	public ArrayList<Integer> getNeighbour(char[] board,int ind){
+	public ArrayList<Integer> getNeighbour(char[] board,int Position){
 		ArrayList<Integer> my_neighbor = new ArrayList<Integer>();
 
 
-		switch(ind){
+		switch(Position){
 
 		case 0: my_neighbor.add(1);
 		my_neighbor.add(3);
@@ -438,20 +438,20 @@ public class ABGame{
 	}
 
 
-	public void generateMove(char c,char[] board,int ind,ArrayList<char[]> allBoard){
+	public void generateMove(char Coin,char[] board,int Position,ArrayList<char[]> allBoard){
 		char[] newBoard;
 		char[] tempBoard;
-		ArrayList<Integer> NighInd;
+		ArrayList<Integer> NighPosition;
 		int tempWhite = 0;
 		int tempBlack = 0;
 
 		char temp;
-		ArrayList<Integer> emptyInd = new ArrayList<Integer>();
+		ArrayList<Integer> emptyPosition = new ArrayList<Integer>();
 		int whiteCount=0,blackCount=0;
 		for(int i = 0; i < 23; i++) {
 			temp = board[i];
 			if(temp=='x' || temp=='X' || temp==' '){
-				emptyInd.add(i);
+				emptyPosition.add(i);
 			}else if(temp=='w' || temp=='W'){
 				whiteCount++;
 			}else if(temp=='b' || temp=='B'){
@@ -462,28 +462,28 @@ public class ABGame{
 
 		if(whiteCount < 3){
 			return;
-		}else if((whiteCount == 3 && c =='W') || (blackCount == 3 && c =='B') ){
-			NighInd = emptyInd;
+		}else if((whiteCount == 3 && Coin =='W') || (blackCount == 3 && Coin =='B') ){
+			NighPosition = emptyPosition;
 		}else{
 
-			NighInd = getNeighbour(board,ind);
+			NighPosition = getNeighbour(board,Position);
 
 		}
-		for(int j=0;j<NighInd.size();j++){
+		for(int j=0;j<NighPosition.size();j++){
 
-			if(board[NighInd.get(j)] == 'x'){	
+			if(board[NighPosition.get(j)] == 'x'){	
 				newBoard = getBoardCopy(board);
 
-				newBoard[NighInd.get(j)] = c;
-				newBoard[ind] = 'x';
-				if(isCloseMill(NighInd.get(j),newBoard)){
+				newBoard[NighPosition.get(j)] = Coin;
+				newBoard[Position] = 'x';
+				if(isCloseMill(NighPosition.get(j),newBoard)){
 					for(int i=0;i<23;i++){
-						if(newBoard[i]!=c && newBoard[i]!='x'){
+						if(newBoard[i]!=Coin && newBoard[i]!='x'){
 							//System.out.println("Mill Done");
 							tempBoard = getBoardCopy(newBoard);
 							if(!isCloseMill(i,tempBoard)){
 								tempBoard[i] = 'x';
-								//System.out.println("Removing ind " + i);
+								//System.out.println("Removing Position " + i);
 								allBoard.add(tempBoard);
 
 							}else{
@@ -500,9 +500,9 @@ public class ABGame{
 
 								}
 
-								if((tempBlack == 3 && c=='W')||(tempWhite == 3 && c=='B') ){
+								if((tempBlack == 3 && Coin=='W')||(tempWhite == 3 && Coin=='B') ){
 									tempBoard[i] = 'x';
-									//System.out.println("Removing ind " + i);
+									//System.out.println("Removing Position " + i);
 									allBoard.add(tempBoard);
 								}
 
@@ -710,28 +710,28 @@ public class ABGame{
 	public void getMidStatEst(TreeNode node){
 		int whites =0;
 		int blacks =0;
-		char c;
+		char Coin;
 		int statEst;
 		int blackMovesNo=0;
 		ArrayList<char[]> allBoards;
 
-		ArrayList<Integer>blackInd = new ArrayList<Integer>();
+		ArrayList<Integer>blackPosition = new ArrayList<Integer>();
 
 
 		for(int i = 0; i < 23; i++) {
-			c = node.getBoard()[i];
-			if(c=='W' ||c=='w' ){
+			Coin = node.getBoard()[i];
+			if(Coin=='W' ||Coin=='w' ){
 				whites++;
-			}else if(c=='B' ||c=='b'){
+			}else if(Coin=='B' ||Coin=='b'){
 				blacks++;
-				blackInd.add(i);
+				blackPosition.add(i);
 			}
 
 		}
 
 		allBoards = new ArrayList<char[]>();
-		for(int i=0;i<blackInd.size();i++){
-			generateMove('B',node.getBoard(),blackInd.get(i),allBoards);
+		for(int i=0;i<blackPosition.size();i++){
+			generateMove('B',node.getBoard(),blackPosition.get(i),allBoards);
 		}	
 
 		blackMovesNo = allBoards.size();
