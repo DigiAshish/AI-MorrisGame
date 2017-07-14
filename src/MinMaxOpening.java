@@ -224,8 +224,8 @@ public class MinMaxOpening {
 					//If all the Coins of Other player are in Mills
 					else
 					{
-						//allBoard.add(tempBoard);
-						int tempWhite = 0;
+						allBoard.add(tempBoard);
+						/*int tempWhite = 0;
 						int tempBlack = 0;
 						char temp;
 						
@@ -244,7 +244,7 @@ public class MinMaxOpening {
 						{
 							tempBoard[i] = 'x';
 							allBoard.add(tempBoard); // Add the whole board with 'X' stored at index to all Board
-						}
+						}*/
 					}
 				}
 			}
