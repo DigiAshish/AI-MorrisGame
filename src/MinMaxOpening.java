@@ -190,10 +190,10 @@ public class MinMaxOpening {
 			}
 
 			node.setChilds(childs);
-			//node.setStatEst(statEst);
+			node.setStatEst(statEst);
 			if(node.getDepth() ==0){
 				node.setBoard(bestBoard);
-				node.setStatEst(statEst); //NEW
+				//node.setStatEst(statEst);
 			}
 		}
 

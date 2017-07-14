@@ -232,11 +232,11 @@ public class MinMaxOpeningBlack {
 
 
 			node.setChilds(childs);
-			//node.setStatEst(statEst); //NEW
+			node.setStatEst(statEst);
 			if(node.getDepth() ==0){
 				//node.setIndex(bestInd);
 				node.setBoard(bestBoard);
-				node.setStatEst(statEst); //NEW
+				//node.setStatEst(statEst); //NEW
 			}
 		}
 
