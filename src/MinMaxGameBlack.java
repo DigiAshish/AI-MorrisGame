@@ -35,15 +35,15 @@ public class MinMaxGameBlack{
 			File inFile = new File(inPath);
 			Scanner reader = new Scanner(inFile);
 			String line = reader.nextLine();
-			char c;
+			char Coin;
 			//sSystem.out.println("number of characters are "+ line.length());
 			if(line.length()>=23){
 				for(int i=0;i<23;i++){
-					c = line.charAt(i);
-					if(c=='W' ||c=='w' ){
+					Coin = line.charAt(i);
+					if(Coin=='W' ||Coin=='w' ){
 						inBoard[i] = 'W';
 						inWhiteCount++;
-					}else if(c=='B' ||c=='b'){
+					}else if(Coin=='B' ||Coin=='b'){
 						inBoard[i] = 'B';
 						inBlackCount++;
 					}else{
@@ -62,10 +62,10 @@ public class MinMaxGameBlack{
 			}
 			char [] tempBoard = getBoardCopy(inBoard);
 			for(int i=0;i<23;i++){
-				c = tempBoard[i];
-				if(c=='W' ||c=='w' ){
+				Coin = tempBoard[i];
+				if(Coin=='W' ||Coin=='w' ){
 					tempBoard[i] = 'B';
-				}else if(c=='B' ||c=='b'){
+				}else if(Coin=='B' ||Coin=='b'){
 					tempBoard[i] = 'W';
 				}
 			}
@@ -80,10 +80,10 @@ public class MinMaxGameBlack{
 			//System.out.println("Board before Swapping");
 			//printBoard(tempBoard);
 			for(int i=0;i<23;i++){
-				c = outBoard[i];
-				if(c=='W' ||c=='w' ){
+				Coin = outBoard[i];
+				if(Coin=='W' ||Coin=='w' ){
 					outBoard[i] = 'B';
-				}else if(c=='B' ||c=='b'){
+				}else if(Coin=='B' ||Coin=='b'){
 					outBoard[i] = 'W';
 				}
 			}
@@ -154,28 +154,28 @@ public class MinMaxGameBlack{
 		return copy;
 	}
 	public void buildMoveTree(TreeNode node){
-		char c;
+		char Coin;
 		int whiteCount=0,blackCount=0;
-		ArrayList<Integer> whiteInd = new ArrayList<Integer>();
-		ArrayList<Integer> blackInd = new ArrayList<Integer>();
-		ArrayList<Integer> itrInd = new ArrayList<Integer>();
+		ArrayList<Integer> whitePosition = new ArrayList<Integer>();
+		ArrayList<Integer> blackPosition = new ArrayList<Integer>();
+		ArrayList<Integer> itrPosition = new ArrayList<Integer>();
 
 		// System.out.println("looking for empty spaces");
 		for(int i = 0; i < 23; i++) {
-			c = node.getBoard()[i];
-			//System.out.println("c is "+ c + " node value "+node.getBoard()[i]);
-			if(c=='x' || c=='X' || c==' '){
-			}else if(c=='w' || c=='W'){
+			Coin = node.getBoard()[i];
+			//System.out.println("Coin is "+ Coin + " node value "+node.getBoard()[i]);
+			if(Coin=='x' || Coin=='X' || Coin==' '){
+			}else if(Coin=='w' || Coin=='W'){
 				whiteCount++;
-				whiteInd.add(i);
-			}else if(c=='b' || c=='B'){
+				whitePosition.add(i);
+			}else if(Coin=='b' || Coin=='B'){
 				blackCount++;
-				blackInd.add(i);
+				blackPosition.add(i);
 			}
 
 		}
 
-		//System.out.println("Empty spaces are " + emptyInd);
+		//System.out.println("Empty spaces are " + emptyPosition);
 
 		//System.out.println("inside buildTree depth " + node.getDepth());
 		if(node.getDepth() == treeDepth || whiteCount <=2 || blackCount <=2){
@@ -193,21 +193,21 @@ public class MinMaxGameBlack{
 
 
 			if(node.getDepth()%2==0){
-				c='W';
-				itrInd = whiteInd;
+				Coin='W';
+				itrPosition = whitePosition;
 				statEst=-1000000000;
 			}else{
-				c='B';
-				itrInd=blackInd;
+				Coin='B';
+				itrPosition=blackPosition;
 				statEst=1000000000;
 			}
 
 
-			for(int i=0;i<itrInd.size();i++){
+			for(int i=0;i<itrPosition.size();i++){
 				allBoards = new ArrayList<char[]>();
 
 
-				generateMove(c,node.getBoard(),itrInd.get(i),allBoards);
+				generateMove(Coin,node.getBoard(),itrPosition.get(i),allBoards);
 
 				//System.out.println("all Boards size is " + allBoards.size());
 
@@ -252,7 +252,7 @@ public class MinMaxGameBlack{
 			node.setChilds(childs);
 			node.setStatEst(statEst);
 			if(node.getDepth() ==0){
-				//node.setIndex(bestInd);
+				//node.setPositionex(bestPosition);
 				node.setBoard(bestBoard);
 			}
 		}
@@ -261,159 +261,159 @@ public class MinMaxGameBlack{
 
 	}
 
-	public ArrayList<Integer> getNeighbour(char[] board,int ind){
-		ArrayList<Integer> ret = new ArrayList<Integer>();
+	public ArrayList<Integer> getNeighbour(char[] board,int Position){
+		ArrayList<Integer> my_neighbor = new ArrayList<Integer>();
 
 
-		switch(ind){
+		switch(Position){
 
-		case 0: ret.add(1);
-		ret.add(3);
-		ret.add(8);
+		case 0: my_neighbor.add(1);
+		my_neighbor.add(3);
+		my_neighbor.add(8);
 		break;
 
-		case 1: ret.add(0);
-		ret.add(2);
-		ret.add(4);
+		case 1: my_neighbor.add(0);
+		my_neighbor.add(2);
+		my_neighbor.add(4);
 		break;
 
-		case 2: ret.add(1);
-		ret.add(5);
-		ret.add(13);
+		case 2: my_neighbor.add(1);
+		my_neighbor.add(5);
+		my_neighbor.add(13);
 		break;
 
-		case 3: ret.add(0);
-		ret.add(4);
-		ret.add(6);
-		ret.add(9);
+		case 3: my_neighbor.add(0);
+		my_neighbor.add(4);
+		my_neighbor.add(6);
+		my_neighbor.add(9);
 		break;
 
-		case 4: ret.add(1);
-		ret.add(3);
-		ret.add(5);
+		case 4: my_neighbor.add(1);
+		my_neighbor.add(3);
+		my_neighbor.add(5);
 		break;
 
-		case 5: ret.add(2);
-		ret.add(4);
-		ret.add(7);
-		ret.add(12);
+		case 5: my_neighbor.add(2);
+		my_neighbor.add(4);
+		my_neighbor.add(7);
+		my_neighbor.add(12);
 		break;
 
-		case 6: ret.add(3);
-		ret.add(7);
-		ret.add(10);
+		case 6: my_neighbor.add(3);
+		my_neighbor.add(7);
+		my_neighbor.add(10);
 		break;	
 
-		case 7: ret.add(5);
-		ret.add(6);
-		ret.add(11);
+		case 7: my_neighbor.add(5);
+		my_neighbor.add(6);
+		my_neighbor.add(11);
 		break;
 
-		case 8: ret.add(0);
-		ret.add(9);
-		ret.add(20);
+		case 8: my_neighbor.add(0);
+		my_neighbor.add(9);
+		my_neighbor.add(20);
 		break;
 
-		case 9: ret.add(3);
-		ret.add(8);
-		ret.add(10);
-		ret.add(17);
+		case 9: my_neighbor.add(3);
+		my_neighbor.add(8);
+		my_neighbor.add(10);
+		my_neighbor.add(17);
 		break;
 
-		case 10:ret.add(6);
-		ret.add(9);
-		ret.add(14);	
+		case 10:my_neighbor.add(6);
+		my_neighbor.add(9);
+		my_neighbor.add(14);	
 		break;
 
-		case 11:ret.add(7);
-		ret.add(12);
-		ret.add(16);
+		case 11:my_neighbor.add(7);
+		my_neighbor.add(12);
+		my_neighbor.add(16);
 		break;
 
-		case 12:ret.add(5);
-		ret.add(11);
-		ret.add(13);
-		ret.add(19);
+		case 12:my_neighbor.add(5);
+		my_neighbor.add(11);
+		my_neighbor.add(13);
+		my_neighbor.add(19);
 		break;
 
-		case 13:ret.add(2);
-		ret.add(12);
-		ret.add(22);
+		case 13:my_neighbor.add(2);
+		my_neighbor.add(12);
+		my_neighbor.add(22);
 		break;
 
-		case 14:ret.add(10);
-		ret.add(15);
-		ret.add(17);
+		case 14:my_neighbor.add(10);
+		my_neighbor.add(15);
+		my_neighbor.add(17);
 		break;		
 
-		case 15:ret.add(14);
-		ret.add(16);
-		ret.add(18);
+		case 15:my_neighbor.add(14);
+		my_neighbor.add(16);
+		my_neighbor.add(18);
 		break;
 
-		case 16:ret.add(11);
-		ret.add(15);
-		ret.add(19);
+		case 16:my_neighbor.add(11);
+		my_neighbor.add(15);
+		my_neighbor.add(19);
 		break;
 
-		case 17:ret.add(9);
-		ret.add(14);
-		ret.add(18);
-		ret.add(20);
+		case 17:my_neighbor.add(9);
+		my_neighbor.add(14);
+		my_neighbor.add(18);
+		my_neighbor.add(20);
 		break;
 
-		case 18:ret.add(15);
-		ret.add(17);
-		ret.add(19);
-		ret.add(21);
+		case 18:my_neighbor.add(15);
+		my_neighbor.add(17);
+		my_neighbor.add(19);
+		my_neighbor.add(21);
 		break;	
 
-		case 19:ret.add(12);
-		ret.add(16);
-		ret.add(18);
-		ret.add(22);
+		case 19:my_neighbor.add(12);
+		my_neighbor.add(16);
+		my_neighbor.add(18);
+		my_neighbor.add(22);
 		break;
 
 
-		case 20:ret.add(8);
-		ret.add(17);
-		ret.add(21);
+		case 20:my_neighbor.add(8);
+		my_neighbor.add(17);
+		my_neighbor.add(21);
 		break;
 
-		case 21:ret.add(18);
-		ret.add(20);
-		ret.add(22);
+		case 21:my_neighbor.add(18);
+		my_neighbor.add(20);
+		my_neighbor.add(22);
 		break;	
 
-		case 22:ret.add(13);
-		ret.add(19);
-		ret.add(21);
+		case 22:my_neighbor.add(13);
+		my_neighbor.add(19);
+		my_neighbor.add(21);
 		break;
 
 		}
 
 
 
-		return ret;
+		return my_neighbor;
 	}
 
 
-	public void generateMove(char c,char[] board,int ind,ArrayList<char[]> allBoard){
+	public void generateMove(char Coin,char[] board,int Position,ArrayList<char[]> allBoard){
 		char[] newBoard;
 		char[] tempBoard;
-		ArrayList<Integer> NighInd;
+		ArrayList<Integer> NighPosition;
 		int tempWhite = 0;
 		int tempBlack = 0;
 
 		char temp;
-		ArrayList<Integer> emptyInd = new ArrayList<Integer>();
+		ArrayList<Integer> emptyPosition = new ArrayList<Integer>();
 		int whiteCount=0,blackCount=0;
 		//System.out.println("looking for empty spaces");
 		for(int i = 0; i < 23; i++) {
 			temp = board[i];
-			//System.out.println("c is "+ c + " node value "+node.getBoard()[i]);
+			//System.out.println("Coin is "+ Coin + " node value "+node.getBoard()[i]);
 			if(temp=='x' || temp=='X' || temp==' '){
-				emptyInd.add(i);
+				emptyPosition.add(i);
 			}else if(temp=='w' || temp=='W'){
 				whiteCount++;
 			}else if(temp=='b' || temp=='B'){
@@ -422,36 +422,36 @@ public class MinMaxGameBlack{
 
 		}
 
-		//System.out.println("Empty spaces are " + emptyInd);
+		//System.out.println("Empty spaces are " + emptyPosition);
 
 		if(whiteCount < 3){
 			return;
-		}else if((whiteCount == 3 && c =='W') || (blackCount == 3 && c =='B') ){
+		}else if((whiteCount == 3 && Coin =='W') || (blackCount == 3 && Coin =='B') ){
 			//System.out.println("Entered into endgame");
-			NighInd = emptyInd;
-			//System.out.println("Empty Ind are : " + emptyInd);
+			NighPosition = emptyPosition;
+			//System.out.println("Empty Position are : " + emptyPosition);
 		}else{
 
-			NighInd = getNeighbour(board,ind);
+			NighPosition = getNeighbour(board,Position);
 
 		}
-		for(int j=0;j<NighInd.size();j++){
+		for(int j=0;j<NighPosition.size();j++){
 
-			if(board[NighInd.get(j)] == 'x'){	
+			if(board[NighPosition.get(j)] == 'x'){	
 				newBoard = getBoardCopy(board);
 
-				newBoard[NighInd.get(j)] = c;
-				newBoard[ind] = 'x';
-				//System.out.println("Moving " + c + " from " + ind + " to ind " +  NighInd.get(j)  );
+				newBoard[NighPosition.get(j)] = Coin;
+				newBoard[Position] = 'x';
+				//System.out.println("Moving " + Coin + " from " + Position + " to Position " +  NighPosition.get(j)  );
 
-				if(isCloseMill(NighInd.get(j),newBoard)){
+				if(isCloseMill(NighPosition.get(j),newBoard)){
 					for(int i=0;i<23;i++){
-						if(newBoard[i]!=c && newBoard[i]!='x'){
+						if(newBoard[i]!=Coin && newBoard[i]!='x'){
 							//System.out.println("Mill Done");
 							tempBoard = getBoardCopy(newBoard);
 							if(!isCloseMill(i,tempBoard)){
 								tempBoard[i] = 'x';
-								//System.out.println("Removing ind " + i);
+								//System.out.println("Removing Position " + i);
 								allBoard.add(tempBoard);
 
 							}else{
@@ -469,9 +469,9 @@ public class MinMaxGameBlack{
 
 								}
 
-								if((tempBlack == 3 && c=='W')||(tempWhite == 3 && c=='B') ){
+								if((tempBlack == 3 && Coin=='W')||(tempWhite == 3 && Coin=='B') ){
 									tempBoard[i] = 'x';
-									//System.out.println("Removing ind " + i);
+									//System.out.println("Removing Position " + i);
 									allBoard.add(tempBoard);
 								}
 
@@ -489,221 +489,202 @@ public class MinMaxGameBlack{
 
 	}
 
-	public boolean isCloseMill(int ind,char[] board){
-		boolean ret = false;
-		switch(ind){
+	public boolean isCloseMill(int Position,char[] board){
+		boolean isMill = false;
+		switch(Position){
 
-		case 0: if(board[ind] == board[1] && board[ind] == board[2] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[8] && board[ind] == board[20] && board[ind]!='x'){
-			ret = true;
-		}else if(board[ind] == board[3] && board[ind] == board[6] && board[ind]!='x'){
-			ret = true;
+		case 0: if(board[Position] == board[1] && board[Position] == board[2] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[8] && board[Position] == board[20] && board[Position]!='x'){
+			isMill = true;
+		}else if(board[Position] == board[3] && board[Position] == board[6] && board[Position]!='x'){
+			isMill = true;
 		}
 		break;
 
-		case 1: if(board[ind] == board[0] && board[ind] == board[2] && board[ind]!='x'){
-			ret =true;
+		case 1: if(board[Position] == board[0] && board[Position] == board[2] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
-		case 2: if(board[ind] == board[0] && board[ind] == board[1] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[13] && board[ind] == board[22] && board[ind]!='x'){
-			ret = true;
-		}else if(board[ind] == board[5] && board[ind] == board[7] && board[ind]!='x'){
-			ret = true;
+		case 2: if(board[Position] == board[0] && board[Position] == board[1] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[13] && board[Position] == board[22] && board[Position]!='x'){
+			isMill = true;
+		}else if(board[Position] == board[5] && board[Position] == board[7] && board[Position]!='x'){
+			isMill = true;
 		}
 		break;
 
-		case 3: if(board[ind] == board[0] && board[ind] == board[6] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[4] && board[ind] == board[5] && board[ind]!='x'){
-			ret = true;
-		}else if(board[ind] == board[9] && board[ind] == board[17] && board[ind]!='x'){
-			ret = true;
+		case 3: if(board[Position] == board[0] && board[Position] == board[6] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[4] && board[Position] == board[5] && board[Position]!='x'){
+			isMill = true;
+		}else if(board[Position] == board[9] && board[Position] == board[17] && board[Position]!='x'){
+			isMill = true;
 		}
 		break;
 
-		case 4: if(board[ind] == board[3] && board[ind] == board[5] && board[ind]!='x'){
-			ret =true;
+		case 4: if(board[Position] == board[3] && board[Position] == board[5] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
-		case 5: if(board[ind] == board[7] && board[ind] == board[2] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[3] && board[ind] == board[4] && board[ind]!='x'){
-			ret = true;
-		}else if(board[ind] == board[12] && board[ind] == board[19] && board[ind]!='x'){
-			ret = true;
+		case 5: if(board[Position] == board[7] && board[Position] == board[2] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[3] && board[Position] == board[4] && board[Position]!='x'){
+			isMill = true;
+		}else if(board[Position] == board[12] && board[Position] == board[19] && board[Position]!='x'){
+			isMill = true;
 		}
 		break;
 
-		case 6: if(board[ind] == board[10] && board[ind] == board[14] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[0] && board[ind] == board[3] && board[ind]!='x'){
-			ret =true;
+		case 6: if(board[Position] == board[10] && board[Position] == board[14] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[0] && board[Position] == board[3] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;	
 
-		case 7: if(board[ind] == board[11] && board[ind] == board[16] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[2] && board[ind] == board[5] && board[ind]!='x'){
-			ret =true;
+		case 7: if(board[Position] == board[11] && board[Position] == board[16] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[2] && board[Position] == board[5] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
-		case 8: if(board[ind] == board[9] && board[ind] == board[10] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[0] && board[ind] == board[20] && board[ind]!='x'){
-			ret = true;
+		case 8: if(board[Position] == board[9] && board[Position] == board[10] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[0] && board[Position] == board[20] && board[Position]!='x'){
+			isMill = true;
 		}
 		break;
 
-		case 9: if(board[ind] == board[3] && board[ind] == board[17] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[8] && board[ind] == board[10] && board[ind]!='x'){
-			ret = true;
+		case 9: if(board[Position] == board[3] && board[Position] == board[17] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[8] && board[Position] == board[10] && board[Position]!='x'){
+			isMill = true;
 		}
 		break;
 
-		case 10: if(board[ind] == board[8] && board[ind] == board[9] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[6] && board[ind] == board[14] && board[ind]!='x'){
-			ret =true;
+		case 10: if(board[Position] == board[8] && board[Position] == board[9] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[6] && board[Position] == board[14] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
-		case 11: if(board[ind] == board[12] && board[ind] == board[13] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[7] && board[ind] == board[16] && board[ind]!='x'){
-			ret =true;
+		case 11: if(board[Position] == board[12] && board[Position] == board[13] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[7] && board[Position] == board[16] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
-		case 12: if(board[ind] == board[11] && board[ind] == board[13] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[5] && board[ind] == board[19] && board[ind]!='x'){
-			ret =true;
+		case 12: if(board[Position] == board[11] && board[Position] == board[13] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[5] && board[Position] == board[19] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
-		case 13: if(board[ind] == board[11] && board[ind] == board[12] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[2] && board[ind] == board[22] && board[ind]!='x'){
-			ret =true;
+		case 13: if(board[Position] == board[11] && board[Position] == board[12] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[2] && board[Position] == board[22] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
-		case 14: if(board[ind] == board[15] && board[ind] == board[16] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[17] && board[ind] == board[20] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[6] && board[ind] == board[10] && board[ind]!='x'){
-			ret =true;
+		case 14: if(board[Position] == board[15] && board[Position] == board[16] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[17] && board[Position] == board[20] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[6] && board[Position] == board[10] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;		
 
-		case 15: if(board[ind] == board[18] && board[ind] == board[21] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[14] && board[ind] == board[16] && board[ind]!='x'){
-			ret =true;
+		case 15: if(board[Position] == board[18] && board[Position] == board[21] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[14] && board[Position] == board[16] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
-		case 16: if(board[ind] == board[7] && board[ind] == board[11] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[19] && board[ind] == board[22] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[14] && board[ind] == board[15] && board[ind]!='x'){
-			ret =true;
+		case 16: if(board[Position] == board[7] && board[Position] == board[11] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[19] && board[Position] == board[22] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[14] && board[Position] == board[15] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
-		case 17: if(board[ind] == board[3] && board[ind] == board[9] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[14] && board[ind] == board[20] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[18] && board[ind] == board[19] && board[ind]!='x'){
-			ret =true;
+		case 17: if(board[Position] == board[3] && board[Position] == board[9] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[14] && board[Position] == board[20] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[18] && board[Position] == board[19] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
-		case 18: if(board[ind] == board[15] && board[ind] == board[21] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[17] && board[ind] == board[19] && board[ind]!='x'){
-			ret =true;
+		case 18: if(board[Position] == board[15] && board[Position] == board[21] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[17] && board[Position] == board[19] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;	
 
-		case 19: if(board[ind] == board[5] && board[ind] == board[12] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[16] && board[ind] == board[22] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[17] && board[ind] == board[18] && board[ind]!='x'){
-			ret =true;
+		case 19: if(board[Position] == board[5] && board[Position] == board[12] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[16] && board[Position] == board[22] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[17] && board[Position] == board[18] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
 
-		case 20: if(board[ind] == board[0] && board[ind] == board[8] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[14] && board[ind] == board[17] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[21] && board[ind] == board[22] && board[ind]!='x'){
-			ret =true;
+		case 20: if(board[Position] == board[0] && board[Position] == board[8] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[14] && board[Position] == board[17] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[21] && board[Position] == board[22] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
-		case 21: if(board[ind] == board[15] && board[ind] == board[18] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[20] && board[ind] == board[22] && board[ind]!='x'){
-			ret =true;
+		case 21: if(board[Position] == board[15] && board[Position] == board[18] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[20] && board[Position] == board[22] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;	
 
-		case 22: if(board[ind] == board[2] && board[ind] == board[13] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[16] && board[ind] == board[19] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[20] && board[ind] == board[21] && board[ind]!='x'){
-			ret =true;
+		case 22: if(board[Position] == board[2] && board[Position] == board[13] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[16] && board[Position] == board[19] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[20] && board[Position] == board[21] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
 
 		}
-		return ret;
-	}
-
-	public void printTreeNode(TreeNode node){
-		//printing when node attribute = 0
-		//System.out.println("Printing Tree");
-		for(int i=0;i<node.getDepth();i++){
-			System.out.print("|");
-		}
-		System.out.print("StatEst:" +node.getStatEst() + ";Board is:");
-		for(int i=0;i<23;i++){
-			System.out.print(node.getBoard()[i]);
-		}
-		System.out.println();
-
-		if(node.getChilds()!=null){
-			//System.out.println("Printing Childs");
-			for(int i=0;i<node.getChilds().size();i++)
-				printTreeNode(node.getChilds().get(i));
-		}	
+		return isMill;
 	}
 
 	public void getMidStatEst(TreeNode node){
 		int whites =0;
 		int blacks =0;
-		char c;
+		char Coin;
 		int statEst;
 		int blackMovesNo=0;
 		ArrayList<char[]> allBoards;
 
-		ArrayList<Integer>blackInd = new ArrayList<Integer>();
+		ArrayList<Integer>blackPosition = new ArrayList<Integer>();
 		//System.out.print("Inside static est board is " );
 		/*for(int i=0;i<23;i++){
 		System.out.print("*"+node.getBoard()[i]);
@@ -712,20 +693,20 @@ public class MinMaxGameBlack{
 		 */
 
 		for(int i = 0; i < 23; i++) {
-			c = node.getBoard()[i];
-			//System.out.println("c is " +c);
-			if(c=='W' ||c=='w' ){
+			Coin = node.getBoard()[i];
+			//System.out.println("Coin is " +Coin);
+			if(Coin=='W' ||Coin=='w' ){
 				whites++;
-			}else if(c=='B' ||c=='b'){
+			}else if(Coin=='B' ||Coin=='b'){
 				blacks++;
-				blackInd.add(i);
+				blackPosition.add(i);
 			}
 
 		}
 
 		allBoards = new ArrayList<char[]>();
-		for(int i=0;i<blackInd.size();i++){
-			generateMove('B',node.getBoard(),blackInd.get(i),allBoards);
+		for(int i=0;i<blackPosition.size();i++){
+			generateMove('B',node.getBoard(),blackPosition.get(i),allBoards);
 		}	
 
 		blackMovesNo = allBoards.size();

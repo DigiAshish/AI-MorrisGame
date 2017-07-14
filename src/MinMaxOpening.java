@@ -255,208 +255,193 @@ public class MinMaxOpening {
 		}
 	}
 
-	public boolean isCloseMill(int ind,char[] board){
-		boolean ret = false;
-		switch(ind){
-		//board[ind] will have either W or B
-		case 0: if(board[ind] == board[1] && board[ind] == board[2] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[8] && board[ind] == board[20] && board[ind]!='x'){
-			ret = true;
-		}else if(board[ind] == board[3] && board[ind] == board[6] && board[ind]!='x'){
-			ret = true;
+	public boolean isCloseMill(int Position,char[] board){
+		boolean isMill = false;
+		switch(Position){
+
+		case 0: if(board[Position] == board[1] && board[Position] == board[2] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[8] && board[Position] == board[20] && board[Position]!='x'){
+			isMill = true;
+		}else if(board[Position] == board[3] && board[Position] == board[6] && board[Position]!='x'){
+			isMill = true;
 		}
 		break;
 
-		case 1: if(board[ind] == board[0] && board[ind] == board[2] && board[ind]!='x'){
-			ret =true;
+		case 1: if(board[Position] == board[0] && board[Position] == board[2] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
-		case 2: if(board[ind] == board[0] && board[ind] == board[1] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[13] && board[ind] == board[22] && board[ind]!='x'){
-			ret = true;
-		}else if(board[ind] == board[5] && board[ind] == board[7] && board[ind]!='x'){
-			ret = true;
+		case 2: if(board[Position] == board[0] && board[Position] == board[1] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[13] && board[Position] == board[22] && board[Position]!='x'){
+			isMill = true;
+		}else if(board[Position] == board[5] && board[Position] == board[7] && board[Position]!='x'){
+			isMill = true;
 		}
 		break;
 
-		case 3: if(board[ind] == board[0] && board[ind] == board[6] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[4] && board[ind] == board[5] && board[ind]!='x'){
-			ret = true;
-		}else if(board[ind] == board[9] && board[ind] == board[17] && board[ind]!='x'){
-			ret = true;
+		case 3: if(board[Position] == board[0] && board[Position] == board[6] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[4] && board[Position] == board[5] && board[Position]!='x'){
+			isMill = true;
+		}else if(board[Position] == board[9] && board[Position] == board[17] && board[Position]!='x'){
+			isMill = true;
 		}
 		break;
 
-		case 4: if(board[ind] == board[3] && board[ind] == board[5] && board[ind]!='x'){
-			ret =true;
+		case 4: if(board[Position] == board[3] && board[Position] == board[5] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
-		case 5: if(board[ind] == board[7] && board[ind] == board[2] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[3] && board[ind] == board[4] && board[ind]!='x'){
-			ret = true;
-		}else if(board[ind] == board[12] && board[ind] == board[19] && board[ind]!='x'){
-			ret = true;
+		case 5: if(board[Position] == board[7] && board[Position] == board[2] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[3] && board[Position] == board[4] && board[Position]!='x'){
+			isMill = true;
+		}else if(board[Position] == board[12] && board[Position] == board[19] && board[Position]!='x'){
+			isMill = true;
 		}
 		break;
 
-		case 6: if(board[ind] == board[10] && board[ind] == board[14] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[0] && board[ind] == board[3] && board[ind]!='x'){
-			ret =true;
+		case 6: if(board[Position] == board[10] && board[Position] == board[14] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[0] && board[Position] == board[3] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;	
 
-		case 7: if(board[ind] == board[11] && board[ind] == board[16] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[2] && board[ind] == board[5] && board[ind]!='x'){
-			ret =true;
+		case 7: if(board[Position] == board[11] && board[Position] == board[16] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[2] && board[Position] == board[5] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
-		case 8: if(board[ind] == board[9] && board[ind] == board[10] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[0] && board[ind] == board[20] && board[ind]!='x'){
-			ret = true;
+		case 8: if(board[Position] == board[9] && board[Position] == board[10] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[0] && board[Position] == board[20] && board[Position]!='x'){
+			isMill = true;
 		}
 		break;
 
-		case 9: if(board[ind] == board[3] && board[ind] == board[17] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[8] && board[ind] == board[10] && board[ind]!='x'){
-			ret = true;
+		case 9: if(board[Position] == board[3] && board[Position] == board[17] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[8] && board[Position] == board[10] && board[Position]!='x'){
+			isMill = true;
 		}
 		break;
 
-		case 10: if(board[ind] == board[8] && board[ind] == board[9] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[6] && board[ind] == board[14] && board[ind]!='x'){
-			ret =true;
+		case 10: if(board[Position] == board[8] && board[Position] == board[9] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[6] && board[Position] == board[14] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
-		case 11: if(board[ind] == board[12] && board[ind] == board[13] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[7] && board[ind] == board[16] && board[ind]!='x'){
-			ret =true;
+		case 11: if(board[Position] == board[12] && board[Position] == board[13] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[7] && board[Position] == board[16] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
-		case 12: if(board[ind] == board[11] && board[ind] == board[13] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[5] && board[ind] == board[19] && board[ind]!='x'){
-			ret =true;
+		case 12: if(board[Position] == board[11] && board[Position] == board[13] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[5] && board[Position] == board[19] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
-		case 13: if(board[ind] == board[11] && board[ind] == board[12] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[2] && board[ind] == board[22] && board[ind]!='x'){
-			ret =true;
+		case 13: if(board[Position] == board[11] && board[Position] == board[12] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[2] && board[Position] == board[22] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
-		case 14: if(board[ind] == board[15] && board[ind] == board[16] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[17] && board[ind] == board[20] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[6] && board[ind] == board[10] && board[ind]!='x'){
-			ret =true;
+		case 14: if(board[Position] == board[15] && board[Position] == board[16] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[17] && board[Position] == board[20] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[6] && board[Position] == board[10] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;		
 
-		case 15: if(board[ind] == board[18] && board[ind] == board[21] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[14] && board[ind] == board[16] && board[ind]!='x'){
-			ret =true;
+		case 15: if(board[Position] == board[18] && board[Position] == board[21] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[14] && board[Position] == board[16] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
-		case 16: if(board[ind] == board[7] && board[ind] == board[11] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[19] && board[ind] == board[22] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[14] && board[ind] == board[15] && board[ind]!='x'){
-			ret =true;
+		case 16: if(board[Position] == board[7] && board[Position] == board[11] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[19] && board[Position] == board[22] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[14] && board[Position] == board[15] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
-		case 17: if(board[ind] == board[3] && board[ind] == board[9] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[14] && board[ind] == board[20] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[18] && board[ind] == board[19] && board[ind]!='x'){
-			ret =true;
+		case 17: if(board[Position] == board[3] && board[Position] == board[9] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[14] && board[Position] == board[20] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[18] && board[Position] == board[19] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
-		case 18: if(board[ind] == board[15] && board[ind] == board[21] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[17] && board[ind] == board[19] && board[ind]!='x'){
-			ret =true;
+		case 18: if(board[Position] == board[15] && board[Position] == board[21] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[17] && board[Position] == board[19] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;	
 
-		case 19: if(board[ind] == board[5] && board[ind] == board[12] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[16] && board[ind] == board[22] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[17] && board[ind] == board[18] && board[ind]!='x'){
-			ret =true;
+		case 19: if(board[Position] == board[5] && board[Position] == board[12] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[16] && board[Position] == board[22] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[17] && board[Position] == board[18] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
 
-		case 20: if(board[ind] == board[0] && board[ind] == board[8] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[14] && board[ind] == board[17] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[21] && board[ind] == board[22] && board[ind]!='x'){
-			ret =true;
+		case 20: if(board[Position] == board[0] && board[Position] == board[8] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[14] && board[Position] == board[17] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[21] && board[Position] == board[22] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
-		case 21: if(board[ind] == board[15] && board[ind] == board[18] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[20] && board[ind] == board[22] && board[ind]!='x'){
-			ret =true;
+		case 21: if(board[Position] == board[15] && board[Position] == board[18] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[20] && board[Position] == board[22] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;	
 
-		case 22: if(board[ind] == board[2] && board[ind] == board[13] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[16] && board[ind] == board[19] && board[ind]!='x'){
-			ret =true;
-		}else if(board[ind] == board[20] && board[ind] == board[21] && board[ind]!='x'){
-			ret =true;
+		case 22: if(board[Position] == board[2] && board[Position] == board[13] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[16] && board[Position] == board[19] && board[Position]!='x'){
+			isMill =true;
+		}else if(board[Position] == board[20] && board[Position] == board[21] && board[Position]!='x'){
+			isMill =true;
 		}
 		break;
 
 
 		}
-		return ret;
+		return isMill;
 	}
 
-	public void printTreeNode(TreeNode node){
-		for(int i=0;i<node.getDepth();i++){
-			System.out.print("|");
-		}
-		System.out.print("StatEst:" +node.getStatEst() + ";Board is:");
-		for(int i=0;i<23;i++){
-			System.out.print(node.getBoard()[i]);
-		}
-		System.out.println();
-
-		if(node.getChilds()!=null){
-			for(int i=0;i<node.getChilds().size();i++)
-				printTreeNode(node.getChilds().get(i));
-		}	
-	}
 
 	public void getOpenStatEst(TreeNode node){
 		int whites =0;
