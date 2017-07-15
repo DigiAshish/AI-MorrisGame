@@ -110,100 +110,121 @@ public class ABOpening {
 		}
 	}
 
-	public void applyABMinMax(TreeNode node){
-
-		if(node.getChilds() != null &&node.getChilds().size()>0){
-
-			if(node.isStatEval()){
-
-				if(node.getDepth()%2==0){
+	public void applyABMinMax(TreeNode node)
+	{
+		//Not Leaf Nodes
+		if(node.getChilds() != null &&node.getChilds().size()>0)
+		{
+			//Node Evaluated
+			if(node.isStatEval())
+			{
+				//MAXMIN
+				if(node.getDepth()%2==0) //MAX Level
+				{
 					if(node.getStatEst() < node.getParent().getStatLess() ){
+						//Parent will be at MIN level.So pick the min value among children
 						node.getParent().setStatLess(node.getStatEst());
 					}
-				}else{
+				}
+				//MINMAX
+				else //MIN Level
+				{
 					if(node.getStatEst() > node.getParent().getStatGreat() ){
+						//Parent will be at MAX level.So pick the MAX value among children
 						node.getParent().setStatGreat(node.getStatEst());
 					}
 				}
-
-
 				node.setStatEval(true);
 				return;
-			}else{
-				for(int i=0;i<node.getChilds().size();i++){
-
-
+			}
+			//Node Not Evaluated
+			else
+			{
+				for(int i=0;i<node.getChilds().size();i++)
+				{	
+					//Recursively Call the Children Nodes
 					applyABMinMax(node.getChilds().get(i));
-
-
-					if(node.getDepth()!=0){
-						if(node.getDepth()%2==0 ){
-							if(node.getStatGreat()>node.getParent().getStatLess()){
+					if(node.getDepth()!=0) //If Not the Root Node
+					{
+						//MAX Level
+						if(node.getDepth()%2==0 ) 
+						{
+							//Only if the Child node is greater than Parent node then consider it
+							if(node.getStatGreat()>node.getParent().getStatLess())
+							{
 								return;
 							}
-						}else{
-
-							if(node.getStatLess()<node.getParent().getStatGreat()){
+						}
+						//MIN Level
+						else
+						{
+							if(node.getStatLess()<node.getParent().getStatGreat())
+							{
 								return;
 							}
-
-
 						}
 					}	
-				}	
-
-
-				if(node.getDepth()%2==0 ){
-
+				}
+				//MAX Level
+				if(node.getDepth()%2==0 )
+				{
 					node.setStatEst(node.getStatGreat());
 					node.setStatEval(true);
-
-					if(node.getDepth()!=0){
+					if(node.getDepth()!=0)
+					{
 						if(node.getStatEst() < node.getParent().getStatLess() ){
+							//Parent will be at MIN level.So pick the min value among children
 							node.getParent().setStatLess(node.getStatEst());
 						}
 					}	
 
-				}else{
-
+				}
+				//MIN Level
+				else
+				{
 					node.setStatEst(node.getStatLess());
 					node.setStatEval(true);
-
 					if(node.getDepth()!=0){
 						if(node.getStatEst() > node.getParent().getStatGreat() ){
+							//Parent will be at MAX level.So pick the MAX value among children
 							node.getParent().setStatGreat(node.getStatEst());
 						}
 					}	
-
 				}
-
-			}
-
-			if(node.getDepth()==0){
-				for(int i=0;i<node.getChilds().size();i++){
+			} //End of Nodes not Evaluated
+			//Root Node
+			if(node.getDepth()==0)
+			{
+				for(int i=0;i<node.getChilds().size();i++)
+				{
 					if(node.getChilds().get(i).getStatEst() == node.getStatEst()){
 						node.setBoard(node.getChilds().get(i).getBoard());
 						break;
 					}
 				}
 			}
-
-
-
-		}else{
-			//System.out.println("Evaluating leaf");
+		}
+		//LEAF Nodes
+		else
+		{
+			//Get stat of the Leaf nodes
 			getOpenStatEst(node);
-			if(node.getDepth()%2==0){
+			//MAX Level
+			if(node.getDepth()%2==0)
+			{
 				if(node.getStatEst() < node.getParent().getStatLess() ){
+					//Parent will be at MIN level.So pick the min value among children
 					node.getParent().setStatLess(node.getStatEst());
 				}
-			}else{
+			}
+			//MIN Level
+			else 
+			{
 				if(node.getStatEst() > node.getParent().getStatGreat() ){
+					//Parent will be in MAX level.So pick the MAX value among children
 					node.getParent().setStatGreat(node.getStatEst());
 				}
 			}
-
-
 			nodesEvaluated++;
 		}
 	}

@@ -9,7 +9,7 @@ public class MinMaxGame{
 	char [] inBoard = new char [23];
 	char [] outBoard = new char [23];
 	String inPath;
-	String outPath;	
+	String outPath;
 	int treeDepth=0;
 	int inWhiteCount=0;
 	int inBlackCount=0;
@@ -18,7 +18,7 @@ public class MinMaxGame{
 
 	public static void main(String[] args){
 
-		MinMaxGame gameOpening = new MinMaxGame(); 
+		MinMaxGame gameOpening = new MinMaxGame();
 		if(args.length>1){
 			gameOpening.addCoin(args); // Call to AddCoin Function
 		}else{
@@ -85,7 +85,7 @@ public class MinMaxGame{
 
 		}catch (IOException e){
 			System.out.println("Exception Occurred !! ");
-			e.printStackTrace();	
+			e.printStackTrace();
 		}
 
 	}
@@ -201,13 +201,13 @@ public class MinMaxGame{
 
 					if(node.getDepth()%2==0){
 						if(newNode.getStatEst() > statEst){
-							statEst = newNode.getStatEst(); 
+							statEst = newNode.getStatEst();
 							bestBoard = newNode.getBoard();
 						}
 
 					}else{
 						if(newNode.getStatEst() < statEst){
-							statEst = newNode.getStatEst(); 
+							statEst = newNode.getStatEst();
 							bestBoard = newNode.getBoard();
 						}
 					}
@@ -278,7 +278,7 @@ public class MinMaxGame{
 		case 6: my_neighbor.add(3);
 		my_neighbor.add(7);
 		my_neighbor.add(10);
-		break;	
+		break;
 
 		case 7: my_neighbor.add(5);
 		my_neighbor.add(6);
@@ -298,7 +298,7 @@ public class MinMaxGame{
 
 		case 10:my_neighbor.add(6);
 		my_neighbor.add(9);
-		my_neighbor.add(14);	
+		my_neighbor.add(14);
 		break;
 
 		case 11:my_neighbor.add(7);
@@ -320,7 +320,7 @@ public class MinMaxGame{
 		case 14:my_neighbor.add(10);
 		my_neighbor.add(15);
 		my_neighbor.add(17);
-		break;		
+		break;
 
 		case 15:my_neighbor.add(14);
 		my_neighbor.add(16);
@@ -342,7 +342,7 @@ public class MinMaxGame{
 		my_neighbor.add(17);
 		my_neighbor.add(19);
 		my_neighbor.add(21);
-		break;	
+		break;
 
 		case 19:my_neighbor.add(12);
 		my_neighbor.add(16);
@@ -359,7 +359,7 @@ public class MinMaxGame{
 		case 21:my_neighbor.add(18);
 		my_neighbor.add(20);
 		my_neighbor.add(22);
-		break;	
+		break;
 
 		case 22:my_neighbor.add(13);
 		my_neighbor.add(19);
@@ -397,25 +397,26 @@ public class MinMaxGame{
 		// Check whether its End Game?
 		if(whiteCount < 3){
 			return;
-		}else if((whiteCount == 3 && Coin =='W') || (blackCount == 3 && Coin =='B') ){
-			//System.out.println("Entered into endgame");
+		}
+		//Generate HOPPING //End Game
+		else if((whiteCount == 3 && Coin =='W') || (blackCount == 3 && Coin =='B') ){
 			NeighborPosition = emptyPosition;
-			//System.out.println("Empty Position are : " + emptyPosition);
-		}else{
-
+		}
+		else
+		{
 			NeighborPosition = getNeighbour(board,Position);
 
 		}
 		for(int j=0;j<NeighborPosition.size();j++){
 
-			if(board[NeighborPosition.get(j)] == 'x'){	
+			if(board[NeighborPosition.get(j)] == 'x'){
 				newBoard = getBoardCopy(board);
-				
+
 				//Move Coin to Neighbor position
 				newBoard[NeighborPosition.get(j)] = Coin; //Put Coin in the neighbour empty position
 				newBoard[Position] = 'x'; //Delete Coin from the Actual Position
-				
-				
+
+
 				//GenerateRemove
 				if(isCloseMill(NeighborPosition.get(j),newBoard)){
 					for(int i=0;i<23;i++){
@@ -520,7 +521,7 @@ public class MinMaxGame{
 		}else if(board[Position] == board[0] && board[Position] == board[3] && board[Position]!='x'){
 			isMill =true;
 		}
-		break;	
+		break;
 
 		case 7: if(board[Position] == board[11] && board[Position] == board[16] && board[Position]!='x'){
 			isMill =true;
@@ -578,7 +579,7 @@ public class MinMaxGame{
 		}else if(board[Position] == board[6] && board[Position] == board[10] && board[Position]!='x'){
 			isMill =true;
 		}
-		break;		
+		break;
 
 		case 15: if(board[Position] == board[18] && board[Position] == board[21] && board[Position]!='x'){
 			isMill =true;
@@ -610,7 +611,7 @@ public class MinMaxGame{
 		}else if(board[Position] == board[17] && board[Position] == board[19] && board[Position]!='x'){
 			isMill =true;
 		}
-		break;	
+		break;
 
 		case 19: if(board[Position] == board[5] && board[Position] == board[12] && board[Position]!='x'){
 			isMill =true;
@@ -636,7 +637,7 @@ public class MinMaxGame{
 		}else if(board[Position] == board[20] && board[Position] == board[22] && board[Position]!='x'){
 			isMill =true;
 		}
-		break;	
+		break;
 
 		case 22: if(board[Position] == board[2] && board[Position] == board[13] && board[Position]!='x'){
 			isMill =true;
@@ -684,14 +685,14 @@ public class MinMaxGame{
 		allBoards = new ArrayList<char[]>();
 		for(int i=0;i<blackPosition.size();i++){
 			generateMove('B',node.getBoard(),blackPosition.get(i),allBoards);
-		}	
+		}
 
 		blackMovesNo = allBoards.size();
 
 		if(blacks<=2){
 			statEst = 10000;
 		}else if(whites<=2){
-			statEst = -10000; 
+			statEst = -10000;
 		}else if(blackMovesNo ==0){
 			statEst = 10000;
 		}else{
