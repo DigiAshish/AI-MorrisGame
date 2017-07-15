@@ -394,7 +394,7 @@ public class MinMaxGame{
 		}
 
 		//System.out.println("Empty spaces are " + emptyPosition);
-		// Check whether its End Game?
+		// Check whether its End Game
 		if(whiteCount < 3){
 			return;
 		}
