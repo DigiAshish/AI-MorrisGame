@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MinMaxGameBlack{
+public class MinMaxGameImproved{
 
 	char [] inBoard = new char [23];
 	char [] outBoard = new char [23];
 	String inPath;
-	String outPath;	
+	String outPath;
 	int treeDepth=0;
 	int inWhiteCount=0;
 	int inBlackCount=0;
@@ -18,7 +18,7 @@ public class MinMaxGameBlack{
 
 	public static void main(String[] args){
 
-		MinMaxGameBlack gameOpening = new MinMaxGameBlack(); 
+		MinMaxGameImproved gameOpening = new MinMaxGameImproved();
 		if(args.length>1){
 			gameOpening.addCoin(args); // Call to AddCoin Function
 		}else{
@@ -30,7 +30,6 @@ public class MinMaxGameBlack{
 			inPath = args[0];
 			outPath = args[1];
 			treeDepth = Integer.parseInt(args[2]);
-
 		try{
 			File inFile = new File(inPath);
 			Scanner reader = new Scanner(inFile);
@@ -60,33 +59,10 @@ public class MinMaxGameBlack{
 			if(inBlackCount<3){
 				System.out.println("Black lost the game .. !!");
 			}
-			char [] tempBoard = getBoardCopy(inBoard);
-			for(int i=0;i<23;i++){
-				Coin = tempBoard[i];
-				if(Coin=='W' ||Coin=='w' ){
-					tempBoard[i] = 'B';
-				}else if(Coin=='B' ||Coin=='b'){
-					tempBoard[i] = 'W';
-				}
-			}
-
-
 			root =new TreeNode();
 			root.setDepth(0);
-			root.setBoard(tempBoard);
+			root.setBoard(getBoardCopy(inBoard));
 			buildMoveTree(root);
-
-			outBoard = getBoardCopy(root.getBoard());
-			//System.out.println("Board before Swapping");
-			//printBoard(tempBoard);
-			for(int i=0;i<23;i++){
-				Coin = outBoard[i];
-				if(Coin=='W' ||Coin=='w' ){
-					outBoard[i] = 'B';
-				}else if(Coin=='B' ||Coin=='b'){
-					outBoard[i] = 'W';
-				}
-			}
 
 
 			//System.out.println("Printing Tree");
@@ -98,18 +74,18 @@ public class MinMaxGameBlack{
 
 			System.out.print("Board Position: ");
 			for(int i=0;i<23;i++){
-				System.out.print(outBoard[i]);
+				System.out.print(root.getBoard()[i]);
 			}
 			System.out.println();
 
 			System.out.println("Positions evaluated by static estimation:"+nodesEvaluated);
 			System.out.println("MINIMAX estimate: "+root.getStatEst());
 
-			writeToFile(outBoard);
+			writeToFile(root.getBoard());
 
 		}catch (IOException e){
 			System.out.println("Exception Occurred !! ");
-			e.printStackTrace();	
+			e.printStackTrace();
 		}
 
 	}
@@ -225,13 +201,13 @@ public class MinMaxGameBlack{
 
 					if(node.getDepth()%2==0){
 						if(newNode.getStatEst() > statEst){
-							statEst = newNode.getStatEst(); 
+							statEst = newNode.getStatEst();
 							bestBoard = newNode.getBoard();
 						}
 
 					}else{
 						if(newNode.getStatEst() < statEst){
-							statEst = newNode.getStatEst(); 
+							statEst = newNode.getStatEst();
 							bestBoard = newNode.getBoard();
 						}
 					}
@@ -302,7 +278,7 @@ public class MinMaxGameBlack{
 		case 6: my_neighbor.add(3);
 		my_neighbor.add(7);
 		my_neighbor.add(10);
-		break;	
+		break;
 
 		case 7: my_neighbor.add(5);
 		my_neighbor.add(6);
@@ -322,7 +298,7 @@ public class MinMaxGameBlack{
 
 		case 10:my_neighbor.add(6);
 		my_neighbor.add(9);
-		my_neighbor.add(14);	
+		my_neighbor.add(14);
 		break;
 
 		case 11:my_neighbor.add(7);
@@ -344,7 +320,7 @@ public class MinMaxGameBlack{
 		case 14:my_neighbor.add(10);
 		my_neighbor.add(15);
 		my_neighbor.add(17);
-		break;		
+		break;
 
 		case 15:my_neighbor.add(14);
 		my_neighbor.add(16);
@@ -366,7 +342,7 @@ public class MinMaxGameBlack{
 		my_neighbor.add(17);
 		my_neighbor.add(19);
 		my_neighbor.add(21);
-		break;	
+		break;
 
 		case 19:my_neighbor.add(12);
 		my_neighbor.add(16);
@@ -383,7 +359,7 @@ public class MinMaxGameBlack{
 		case 21:my_neighbor.add(18);
 		my_neighbor.add(20);
 		my_neighbor.add(22);
-		break;	
+		break;
 
 		case 22:my_neighbor.add(13);
 		my_neighbor.add(19);
@@ -391,9 +367,6 @@ public class MinMaxGameBlack{
 		break;
 
 		}
-
-
-
 		return my_neighbor;
 	}
 
@@ -401,9 +374,7 @@ public class MinMaxGameBlack{
 	public void generateMove(char Coin,char[] board,int Position,ArrayList<char[]> allBoard){
 		char[] newBoard;
 		char[] tempBoard;
-		ArrayList<Integer> NighPosition;
-		int tempWhite = 0;
-		int tempBlack = 0;
+		ArrayList<Integer> NeighborPosition;
 
 		char temp;
 		ArrayList<Integer> emptyPosition = new ArrayList<Integer>();
@@ -423,28 +394,31 @@ public class MinMaxGameBlack{
 		}
 
 		//System.out.println("Empty spaces are " + emptyPosition);
-
+		// Check whether its End Game
 		if(whiteCount < 3){
 			return;
-		}else if((whiteCount == 3 && Coin =='W') || (blackCount == 3 && Coin =='B') ){
-			//System.out.println("Entered into endgame");
-			NighPosition = emptyPosition;
-			//System.out.println("Empty Position are : " + emptyPosition);
-		}else{
-
-			NighPosition = getNeighbour(board,Position);
+		}
+		//Generate HOPPING //End Game
+		else if((whiteCount == 3 && Coin =='W') || (blackCount == 3 && Coin =='B') ){
+			NeighborPosition = emptyPosition;
+		}
+		else
+		{
+			NeighborPosition = getNeighbour(board,Position);
 
 		}
-		for(int j=0;j<NighPosition.size();j++){
+		for(int j=0;j<NeighborPosition.size();j++){
 
-			if(board[NighPosition.get(j)] == 'x'){	
+			if(board[NeighborPosition.get(j)] == 'x'){
 				newBoard = getBoardCopy(board);
 
-				newBoard[NighPosition.get(j)] = Coin;
-				newBoard[Position] = 'x';
-				//System.out.println("Moving " + Coin + " from " + Position + " to Position " +  NighPosition.get(j)  );
+				//Move Coin to Neighbor position
+				newBoard[NeighborPosition.get(j)] = Coin; //Put Coin in the neighbour empty position
+				newBoard[Position] = 'x'; //Delete Coin from the Actual Position
 
-				if(isCloseMill(NighPosition.get(j),newBoard)){
+
+				//GenerateRemove
+				if(isCloseMill(NeighborPosition.get(j),newBoard)){
 					for(int i=0;i<23;i++){
 						if(newBoard[i]!=Coin && newBoard[i]!='x'){
 							//System.out.println("Mill Done");
@@ -455,6 +429,9 @@ public class MinMaxGameBlack{
 								allBoard.add(tempBoard);
 
 							}else{
+
+								int tempWhite = 0;
+								int tempBlack = 0;
 
 								tempWhite = 0;
 								tempBlack = 0;
@@ -471,8 +448,11 @@ public class MinMaxGameBlack{
 
 								if((tempBlack == 3 && Coin=='W')||(tempWhite == 3 && Coin=='B') ){
 									tempBoard[i] = 'x';
+									//System.out.println("Removing Position " + i);
 									allBoard.add(tempBoard);
 								}
+
+								//System.out.println("mill encountered so not removing");
 
 							}
 						}
@@ -541,7 +521,7 @@ public class MinMaxGameBlack{
 		}else if(board[Position] == board[0] && board[Position] == board[3] && board[Position]!='x'){
 			isMill =true;
 		}
-		break;	
+		break;
 
 		case 7: if(board[Position] == board[11] && board[Position] == board[16] && board[Position]!='x'){
 			isMill =true;
@@ -599,7 +579,7 @@ public class MinMaxGameBlack{
 		}else if(board[Position] == board[6] && board[Position] == board[10] && board[Position]!='x'){
 			isMill =true;
 		}
-		break;		
+		break;
 
 		case 15: if(board[Position] == board[18] && board[Position] == board[21] && board[Position]!='x'){
 			isMill =true;
@@ -631,7 +611,7 @@ public class MinMaxGameBlack{
 		}else if(board[Position] == board[17] && board[Position] == board[19] && board[Position]!='x'){
 			isMill =true;
 		}
-		break;	
+		break;
 
 		case 19: if(board[Position] == board[5] && board[Position] == board[12] && board[Position]!='x'){
 			isMill =true;
@@ -657,7 +637,7 @@ public class MinMaxGameBlack{
 		}else if(board[Position] == board[20] && board[Position] == board[22] && board[Position]!='x'){
 			isMill =true;
 		}
-		break;	
+		break;
 
 		case 22: if(board[Position] == board[2] && board[Position] == board[13] && board[Position]!='x'){
 			isMill =true;
@@ -673,6 +653,7 @@ public class MinMaxGameBlack{
 		return isMill;
 	}
 
+
 	public void getMidStatEst(TreeNode node){
 		int whites =0;
 		int blacks =0;
@@ -682,7 +663,6 @@ public class MinMaxGameBlack{
 		ArrayList<char[]> allBoards;
 
 		ArrayList<Integer>blackPosition = new ArrayList<Integer>();
-
 
 		for(int i = 0; i < 23; i++) {
 			Coin = node.getBoard()[i];
@@ -699,25 +679,37 @@ public class MinMaxGameBlack{
 		allBoards = new ArrayList<char[]>();
 		for(int i=0;i<blackPosition.size();i++){
 			generateMove('B',node.getBoard(),blackPosition.get(i),allBoards);
-		}	
+		}
 
 		blackMovesNo = allBoards.size();
 
 		if(blacks<=2){
 			statEst = 10000;
 		}else if(whites<=2){
-			statEst = -10000; 
+			statEst = -10000;
 		}else if(blackMovesNo ==0){
 			statEst = 10000;
 		}else{
-			statEst = 1000*(whites - blacks);
+			statEst = 1000*(whites+ numPotentialMills(node) - blacks);
 			statEst = statEst - blackMovesNo;
 		}
-
-		//System.out.println("Whites :"+whites + "Blacks :"+blacks);
 		node.setStatEst(statEst);
 	}
-
-
+	
+	private int numPotentialMills(TreeNode node) {
+		char Coin;
+		int counter=0;
+		for(int i = 0; i < 23; i++) 
+		{
+			Coin = node.getBoard()[i];
+			if(Coin=='W' ||Coin=='w' ){
+				if (isCloseMill(i,node.getBoard()))
+				{
+					counter++;
+				}
+			}
+		}
+		return counter;
+	}
 
 }

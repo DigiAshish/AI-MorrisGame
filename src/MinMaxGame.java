@@ -663,16 +663,10 @@ public class MinMaxGame{
 		ArrayList<char[]> allBoards;
 
 		ArrayList<Integer>blackPosition = new ArrayList<Integer>();
-		//System.out.print("Inside static est board is " );
-		/*for(int i=0;i<23;i++){
-		System.out.print("*"+node.getBoard()[i]);
-	}
-	System.out.println();
-		 */
+
 
 		for(int i = 0; i < 23; i++) {
 			Coin = node.getBoard()[i];
-			//System.out.println("Coin is " +Coin);
 			if(Coin=='W' ||Coin=='w' ){
 				whites++;
 			}else if(Coin=='B' ||Coin=='b'){
@@ -699,8 +693,6 @@ public class MinMaxGame{
 			statEst = 1000*(whites - blacks);
 			statEst = statEst - blackMovesNo;
 		}
-
-		//System.out.println("Whites :"+whites + "Blacks :"+blacks);
 		node.setStatEst(statEst);
 	}
 
