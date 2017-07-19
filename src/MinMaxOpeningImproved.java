@@ -51,7 +51,6 @@ public class MinMaxOpeningImproved {
 				System.out.println("Please enter all places in board");
 			}
 
-			System.out.println("Printing input board");
 			
 			
 			root =new TreeNode();
