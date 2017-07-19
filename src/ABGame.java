@@ -484,11 +484,9 @@ public class ABGame{
 				if(isCloseMill(NighPosition.get(j),newBoard)){
 					for(int i=0;i<23;i++){
 						if(newBoard[i]!=Coin && newBoard[i]!='x'){
-							//System.out.println("Mill Done");
 							tempBoard = getBoardCopy(newBoard);
 							if(!isCloseMill(i,tempBoard)){
 								tempBoard[i] = 'x';
-								//System.out.println("Removing Position " + i);
 								allBoard.add(tempBoard);
 
 							}else{
@@ -507,11 +505,8 @@ public class ABGame{
 
 								if((tempBlack == 3 && Coin=='W')||(tempWhite == 3 && Coin=='B') ){
 									tempBoard[i] = 'x';
-									//System.out.println("Removing Position " + i);
 									allBoard.add(tempBoard);
 								}
-
-								//System.out.println("mill encountered so not removing");
 							}
 						}
 					}
