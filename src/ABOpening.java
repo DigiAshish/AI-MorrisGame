@@ -149,7 +149,7 @@ public class ABOpening {
 						//MAX Level
 						if(node.getDepth()%2==0 ) 
 						{
-							//Only if the Child node is greater than Parent node then consider it
+							//Parent at min Level. if Child value greater than Parent then IGNORE
 							if(node.getStatGreat()>node.getParent().getStatLess())
 							{
 								return;
@@ -215,6 +215,7 @@ public class ABOpening {
 				if(node.getStatEst() < node.getParent().getStatLess() ){
 					//Parent will be at MIN level.So pick the min value among children
 					node.getParent().setStatLess(node.getStatEst());
+					nodesEvaluated++;
 				}
 			}
 			//MIN Level
@@ -223,9 +224,10 @@ public class ABOpening {
 				if(node.getStatEst() > node.getParent().getStatGreat() ){
 					//Parent will be in MAX level.So pick the MAX value among children
 					node.getParent().setStatGreat(node.getStatEst());
+					nodesEvaluated++;
 				}
 			}
-			nodesEvaluated++;
+			//nodesEvaluated++;
 		}
 	}
 

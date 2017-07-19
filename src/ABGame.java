@@ -53,7 +53,10 @@ public class ABGame{
 			}
 
 			if(inWhiteCount<3){
-				System.out.println("Sorry dude you lost the game .. !!");
+				System.out.println("White lost the game .. !!");
+			}
+			if(inBlackCount<3){
+				System.out.println("Black lost the game .. !!");
 			}
 
 			root =new TreeNode();
@@ -204,15 +207,17 @@ public class ABGame{
 			if(node.getDepth()%2==0){
 				if(node.getStatEst() < node.getParent().getStatLess() ){
 					node.getParent().setStatLess(node.getStatEst());
+					nodesEvaluated++;
 				}
 			}else{
 				if(node.getStatEst() > node.getParent().getStatGreat() ){
 					node.getParent().setStatGreat(node.getStatEst());
+					nodesEvaluated++;
 				}
 			}
 
 
-			nodesEvaluated++;
+			
 		}
 	}
 
